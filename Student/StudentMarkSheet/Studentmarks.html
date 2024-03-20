@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marks</title>
+    <link rel="stylesheet" href="Studentmarks.css">
+</head>
+<body>
+
+    <div class="navbar">
+
+        <!-- getting navbar from Other file use ID(nav)-->
+        <div id="nav"></div>
+    
+        <script>
+            $(function() {
+                $("#nav").load("../Navigation bar/Nav-Bar.html #nav", function() {
+                });
+            });
+        </script>
+    
+    </div>
+    
+    <div class="container">
+       
+        <table>
+            <thead>
+                <tr>
+                    <div class="heading">
+                        <h1>Student Marks</h1>
+                    </div>
+                    
+                </tr>
+                <tr id="title">
+                    <th>Task Number</th>
+                    <th>Task Name</th>
+                    <th>Marks</th>
+                    <th>Comment</th>
+                    <th>Document</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Task 1</td>
+                        <td>10</td>
+                        <td>Good</td>
+                        <td>Document</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Task 2</td>
+                        <td>10</td>
+                        <td>Good</td>
+                        <td>Document</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Task 3</td>
+                        <td>10</td>
+                        <td>Good</td>
+                        <td>Document</td>
+                    </tr>
+        </table>
+      
+    </div>
+</body>
+</html>

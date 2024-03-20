@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="LoginStudent.css" rel="Stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <title>LoginPage</title>
+</head>
+
+<body>
+    
+    <div class="wrapper">
+        <div class="form-wrapper sign-in">
+            <form action="">
+                
+                <h2>Login As a Student</h2>
+                <div class="input-group">
+                    <input type="text" id="UserName" name="UserName" required>
+                    <label for="UserName">Username</label>   
+                </div>
+                <div class="input-group">
+                    <input type="password" id="Password" name="Password" required>
+                    <label for="Password">Password</label>
+                </div>
+                <div class="remember">
+                    <label for=""><input type="checkbox">Remember me</label>
+                </div>
+                <button type="submit">Login</button>
+                <div class="signUp-link">
+                    <p>Don't have an account?  <a href="#" class="signUpBtn-link">Sign Up</a></p>
+                </div>
+                </form>
+        </div>
+
+        <div class="form-wrapper sign-up">
+            
+            <form action="">
+                <h2>Sign Up As a Student</h2>
+                <div class="input-group">
+                    <input type="text" id="UserName" name="UserName" required>
+                    <label for="UserName">Username</label>   
+                </div>
+                <div class="input-group">
+                    <input type="email" id="Email" name="Email" required>
+                    <label for="Email">Email</label>   
+                </div>
+                <div class="input-group">
+                    <input type="password" id="Password" name="Password" required>
+                    <label for="Password">Password</label>
+                </div>
+                <div class="remember">
+                    <label for=""><input type="checkbox">I agree to the terms & conditions</label>
+                </div>
+                <button type="submit">Sign Up</button>
+                <div class="signUp-link">
+                    <p>Already have an account?  <a href="#" class="signInBtn-link">Sign In</a></p>
+                </div>
+                </form>
+        </div>
+    </div>
+
+
+    <script src="LoginStudent.js"></script>
+
+</body>
+</html>
