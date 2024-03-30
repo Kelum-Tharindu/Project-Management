@@ -1,0 +1,131 @@
+body{
+    background: rgb(26,26,63);
+    background: linear-gradient(90deg, rgba(26,26,63,0.9697128851540616) 34%, rgba(39,90,100,1) 100%);
+
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* background-color: aqua; */
+    min-height: 100vh;
+    width: 100%;
+}
+
+.title{
+    justify-content: top;
+}
+.table{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 90%;
+}
+.table table{
+    width: 100%;
+    /* border: 1px solid #ddd; */
+    /* background-color: #f1f1f1; */
+    
+    padding: 20px;
+
+    /* border-collapse: collapse; */
+    /* remove only vertical boader */
+     border-collapse: separate;
+    border-spacing: 0 15px; 
+    /* border-radius: 20px;     */
+
+
+}
+.table  tr{
+    width: 100%;
+    background-color: #7775;
+    height: 4rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+
+}
+.clm1{
+    width: 50%;
+    
+    border-top-left-radius:  20px;
+    border-bottom-left-radius:  20px;
+    text-align:center;
+    font-size: 20px;
+    
+}
+.clm2{
+    width: 50%;
+    border-top-right-radius:  20px;
+    border-bottom-right-radius:  20px;
+    text-align:center;
+    
+}
+.combo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+    height: 2rem;
+    margin-top: 5px;
+  
+    border: white 1.5px solid;
+   
+}
+#file{
+    height: 10rem;
+    
+    margin: 15px;
+    
+    border-radius: 18px;
+    background-color: #7771;
+    
+}
+
+input{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+    height: 2rem;
+    font-size: 20px;
+    margin-top: 5px;
+    /* border-radius: 18px;
+    background-color: #7771; */
+    border: white 1.5px solid;
+    /* margin-top: 20px; */
+}
+.btnpanel{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.btn{
+
+   
+    /* margin-left: 5rem; */
+    align-items: center;
+    margin-left: 1rem;
+    width: 10rem;
+    height: 3rem;  
+    background-color:  #7775;
+    color: white;
+    font-size: 18px;
+    border: white 1px solid;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+
+}

@@ -10,7 +10,7 @@ body{
     justify-content: top;
     align-items: center;
     flex-wrap: wrap;
-    min-height: 100vh;
+    min-height: 50vh;
     width: 100%;
 }
 .title{
@@ -84,7 +84,7 @@ body{
 
 {
     width: 100%;
-    height: 100%;
+    height: 50%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
