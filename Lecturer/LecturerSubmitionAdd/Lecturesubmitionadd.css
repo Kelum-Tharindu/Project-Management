@@ -37,7 +37,8 @@ body{
     /* remove only vertical boader */
      border-collapse: separate;
     border-spacing: 0 15px; 
-    /* border-radius: 20px;     */
+    background-color: #7773;
+    border-radius: 15px;    
 
 
 }
