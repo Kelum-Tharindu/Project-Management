@@ -7,7 +7,9 @@
     <link href="LoginAdmin.css" rel="Stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-    <title>LoginPage</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="LoginAdmin.js"></script>
+    <title>Admin Login Page</title>
 </head>
 
 <body>
@@ -18,17 +20,19 @@
                 
                 <h2>Login As a Admin</h2>
                 <div class="input-group">
-                    <input type="text" id="UserName" name="UserName" required>
-                    <label for="UserName">Username</label>   
+                    <input type="email" id="login-email" name="login-email" required>
+                    <label for="login-email">Email</label>  
                 </div>
                 <div class="input-group">
-                    <input type="password" id="Password" name="Password" required>
-                    <label for="Password">Password</label>
+                    <input type="password" id="login-password" name="login-password" required>
+                    <img src="eye-open.png"id="Leye-open">
+                   
+                    <label for="login-password">Password</label>
                 </div>
                 <div class="remember">
                     <label for=""><input type="checkbox">Remember me</label>
                 </div>
-                <button type="submit">Login</button>
+                <button id="btn-Login">Login</button>
                
                 </form>
         </div>
@@ -37,7 +41,7 @@
     </div>
 
 
-    <script src="LoginStudent.js"></script>
+    <!-- <script src="LoginStudent.js"></script> -->
 
 </body>
 </html>
