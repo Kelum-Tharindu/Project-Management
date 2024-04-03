@@ -7,6 +7,10 @@
     <link href="LoginStudent.css" rel="Stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+   <!-- Ajax jQuery -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="LoginStudentValidation.js"></script>
+
     <title>LoginPage</title>
 </head>
 
@@ -14,56 +18,96 @@
     
     <div class="wrapper">
         <div class="form-wrapper sign-in">
-            <form action="">
+            <div>
                 
                 <h2>Login As a Student</h2>
                 <div class="input-group">
-                    <input type="text" id="UserName" name="UserName" required>
-                    <label for="UserName">Username</label>   
+                    <input type="email" id="login-email" name="login-email" required>
+                    <label for="login-email">Email</label>   
                 </div>
                 <div class="input-group">
-                    <input type="password" id="Password" name="Password" required>
-                    <label for="Password">Password</label>
+                    <input type="password" id="login-password" name="login-password" required>
+                    <img src="eye-open.png"id="Leye-open">
+                   
+                    <label for="login-password">Password</label>
                 </div>
                 <div class="remember">
                     <label for=""><input type="checkbox">Remember me</label>
                 </div>
-                <button type="submit">Login</button>
+                <button  id="btn-Login">Login</button>
                 <div class="signUp-link">
                     <p>Don't have an account?  <a href="#" class="signUpBtn-link">Sign Up</a></p>
                 </div>
-                </form>
+            </div>
         </div>
 
         <div class="form-wrapper sign-up">
             
-            <form action="">
+            <div>
                 <h2>Sign Up As a Student</h2>
                 <div class="input-group">
-                    <input type="text" id="UserName" name="UserName" required>
-                    <label for="UserName">Username</label>   
+                    <input type="text" id="register-UserName" name="UserName" required>
+                    <label for="UserName">Username </label>   
                 </div>
+                
                 <div class="input-group">
-                    <input type="email" id="Email" name="Email" required>
+                    <input type="email" id="register-Email" name="Email" required>
                     <label for="Email">Email</label>   
                 </div>
                 <div class="input-group">
-                    <input type="password" id="Password" name="Password" required>
+                    <input type="password" id="register-Password" name="Password" required>
+                    <img src="eye-open.png"id="Reye-open">
+                    
                     <label for="Password">Password</label>
+
+                </div>
+                <div >
+                    
+                    <label class="selectlable" for="course">Course</label>
+                    <select id="course" >
+                          <option value="">Select Your Course</option>
+                          <option value="Information Technology">Information Technology</option>
+                          <option value="Cyber Security">Cyber Security</option>
+                          <option value="Data Science">Data Science</option>
+                          <option value="Computer Science">Computer Science</option>
+                    </select>
+                </div>
+                <div >
+                    <label class ="selectlable" for="batch">Batch</label>
+
+                   <select id="batch">
+                          <option class="selectvalue" value="">Select Your Batch</option>
+                          <option value="2020">2020</option>
+                          <option value="2021">2021</option>
+                          <option value="2022">2022</option>
+                          <option value="2023">2023</option>
+                   </select>
+                   
+                </div>
+                <div >
+                   
+                    <label class ="selectlable" for="index">Index Number</label>
+                    <select id="index">
+                          <option value="">Select Your Index Number</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            </select>
                 </div>
                 <div class="remember">
-                    <label for=""><input type="checkbox">I agree to the terms & conditions</label>
+                    <label for=""><input id="register-check" type="checkbox">I agree to the terms & conditions</label>
                 </div>
-                <button type="submit">Sign Up</button>
+                <button id="btn-Register" >Sign Up</button>
                 <div class="signUp-link">
                     <p>Already have an account?  <a href="#" class="signInBtn-link">Sign In</a></p>
                 </div>
-                </form>
+            </div>
         </div>
     </div>
 
 
-    <script src="LoginStudent.js"></script>
+    <!-- <script src="LoginStudent.js"></script> -->
 
 </body>
 </html>

@@ -72,15 +72,15 @@ function submit($file){
 }
 
 // Function to get the database connection
-function getDbConnection(){
-    $db_host = "localhost";
-    $db_user = "root";
-    $db_password = "";
-    $database = "watchstore";
-    $con = mysqli_connect($db_host, $db_user, $db_password, $database);
-    if (!$con) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    return $con;
-}
+// function getDbConnection(){
+//     $db_host = "localhost";
+//     $db_user = "root";
+//     $db_password = "";
+//     $database = "watchstore";
+//     $con = mysqli_connect($db_host, $db_user, $db_password, $database);
+//     if (!$con) {
+//         die("Connection failed: " . mysqli_connect_error());
+//     }
+//     return $con;
+// }
 ?>
