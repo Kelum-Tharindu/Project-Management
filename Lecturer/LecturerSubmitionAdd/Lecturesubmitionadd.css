@@ -66,44 +66,63 @@ body{
     text-align:center;
     
 }
-.combo {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    margin: auto;
-    height: 2rem;
-    margin-top: 5px;
-  
-    border: white 1.5px solid;
-   
-}
+/*  */
 #file{
     height: 10rem;
     
-    margin: 15px;
-    
+    /* margin: 15px;
+     */
+margin: auto;    
     border-radius: 18px;
     background-color: #7771;
     
 }
-
+textarea, 
+.combo,
 input{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 90%;
+    width: 80%;
     margin: auto;
     height: 2rem;
-    font-size: 20px;
+    font-size: 14px;
     margin-top: 5px;
+    background-color: #7771;
+    border-radius: 12px;
     /* border-radius: 18px;
     background-color: #7771; */
     border: white 1.5px solid;
     /* margin-top: 20px; */
 }
+textarea{
+    height: 10rem;
+    margin: 15px;
+    border-radius: 18px;
+    margin: auto;
+    background-color: #7771;
+}
+.combo option{
+    background-color: #7778;
+    color: white;
+    font-size: 14px;
+    border-radius: 12px;
+    border: white 1.5px solid;
+    
+}
+
+.combo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: auto;
+
+   
+}
+
 .btnpanel{
     margin-top: 2rem;
     margin-bottom: 1rem;
