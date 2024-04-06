@@ -12,7 +12,8 @@ function getDbConnection(){
        // return null;
     }
     else{
-        //echo "Connected successfully";
+        // echo( "Connected successfully");
+        // echo ($con);
         return $con;
     }
 }

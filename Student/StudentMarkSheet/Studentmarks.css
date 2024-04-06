@@ -82,7 +82,20 @@ table td{
     margin-bottom: 15px; */
     
 }
-
+td img{
+    width: 35px;
+    height: 35px;
+}
+#btndownload{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    
+    padding: 10px;
+    background-color: #fff2;
+    
+    cursor: pointer;
+}
 
 @media screen and (minwith: 768px){
     

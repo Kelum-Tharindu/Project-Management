@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(){
 console.log('hi');
+
+loadDescription();
+
+
 var filedata = document.getElementById('input-file');
 var btnRegister = document.getElementById('btnsubmit');
 
@@ -23,6 +27,9 @@ dropArea.addEventListener('drop', function (e) {
     inputFile.files = e.dataTransfer.files;
     uploadFile();
 });
+
+
+
 
 
 
@@ -92,6 +99,16 @@ function uploadFile() {
 
 
 
+//---------------------------------------------------------back btn-------------------------------------------------
+
+// var btnback = document.getElementById('btnback');
+btnback.addEventListener('click', function(){
+    window.location.href = "../Stu-Dashboard/Stu-Dashboard.html";
+});
+
+
+
+
 
 //----------------------------------------------------submit btn----------------------------------------------
 
@@ -101,6 +118,7 @@ function uploadFile() {
 
 // send profile pic to the server (to php file)
 btnsubmit.addEventListener('click', function(){
+    console.log('Submit button clicked');
     const file1 = inputFile.files[0]; 
     
     if(file1 != null){
@@ -127,8 +145,70 @@ btnsubmit.addEventListener('click', function(){
         });
     }
 });
+
+
+
+
+
+
+//---------------------------------------------description load---------------------------------------------------------
+
+
+function loadDescription(){
+    $.ajax({
+        url: 'submit.php',
+        method: 'POST',
+        data: {
+            functionName: 'loadDescription'
+        },
+        success: function(response){
+            console.log("success");
+            // console.log( response.textdata);
+            console.log(response);
+           if(response.status == "success"){
+            response.textdata.forEach(function(data){
+                document.getElementById('taskname').textContent = data.title;
+                document.getElementById('subdate').textContent = data.addedDate;
+                document.getElementById('time').textContent = data.time;
+                document.getElementById('deadline').textContent = data.deadline;
+                document.getElementById('note').textContent = data.note;
+                console.log(data.title);
+            });
+            console.log('Content-Type: application/pdf' + response.doc_datas);
+            console.log(response.doc_datas);
+            if (response.doc_datas && response.doc_datas.length > 0) {
+                response.doc_datas.forEach(function(doc1) {
+                    document.getElementById('docview').textContent = doc1.File;
+                });
+            } else {
+                console.log("No document data available");
+                console.log(response.doc_datas);
+                document.getElementById('docview').style.display = "none";
+            }
+            
+           
+        }
+        else{
+            
+            console.log("error");
+            console.error(error);
+        }
+        
+            
+        },
+        error: function(error){
+            console.error(error);
+        }
+    });
+
+
+
+
  
+
+}
 });
+
 
 
 
@@ -147,6 +227,5 @@ btnsubmit.addEventListener('click', function(){
 
 
     
-
 
 

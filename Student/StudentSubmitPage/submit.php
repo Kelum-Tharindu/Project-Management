@@ -9,6 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 
                 submit();
                 break;
+
+                case 'loadDescription':
+                    // Call the submit function
+                    loadDescription();
+                    break;
                
             default:
                 accessDenied();
@@ -30,6 +35,8 @@ function accessDenied(){
     exit ('<h1 style="text-align: center; font-family: roboto; color: red; margin-top: 6%">Access Denied !</h1>');
 }
 
+
+//=========================================submit function=========================================
 function submit(){
 
 if(isset($_FILES['input-file']))
@@ -45,31 +52,53 @@ else{
 
             // $T_ID=$_COOKIE['T_ID'];
             $T_ID=1;
+            // $V_ID=$_SESSION['V_ID'];
+            $V_ID=1;
 
-            // Get the file content
-                $Doc = file_get_contents($_FILES['input-file']['tmp_name']);
+           // Assuming $_FILES['input-file'] is set with the uploaded file data
 
-            // Prepare the SQL statement to insert the image data
-            $sql = "INSERT INTO Document (Doc,T_ID) VALUES (?, ?)";
-            $stmt = $con->prepare($sql);
-            echo $con->error;
-            // Bind the file content to the SQL statement
-            $null = NULL; // Placeholder for BLOB parameter
-            $stmt->bind_param("bs", $null, $T_ID); // 'b' indicates binary data
-            $stmt->send_long_data(0, $Doc); // Bind BLOB data 
+// Check if the file was uploaded successfully
+if ($_FILES['input-file']['error'] !== UPLOAD_ERR_OK) {
+    echo json_encode(array("status" => "failed", "message" => "File upload failed"));
+    exit;
+}
 
-            // Execute the SQL statement
-            $stmt->execute();
+// Check if the file is not empty
+if ($_FILES['input-file']['size'] === 0) {
+    echo json_encode(array("status" => "failed", "message" => "File is empty"));
+    exit;
+}
 
-            if ($stmt->affected_rows > 0) {
-                echo json_encode(array("status" => "success", "message" => "Profile Picture Updated Successfully"));
-            } else {
-                echo json_encode(array("status" => "failed", "message" => "Failed to Update Profile Picture"));
-            }
+// Get the file content
+$Doc = file_get_contents($_FILES['input-file']['tmp_name']);
 
-            // Close the statement and connection
-            $stmt->close();
-            $con->close();
+// Prepare the SQL statement to insert the file data
+$sql = "INSERT INTO doc (Doc, T_ID, V_ID, D_Name) VALUES (?, ?, ?, ?)";
+$stmt = $con->prepare($sql);
+
+// Check if the SQL statement is prepared successfully
+if (!$stmt) {
+    echo json_encode(array("status" => "failed", "message" => "Failed to prepare SQL statement"));
+    exit;
+}
+
+// Bind parameters to the SQL statement
+$stmt->bind_param("siis", $Doc, $T_ID, $V_ID, $_FILES['input-file']['name']); // 's' indicates string data
+
+// Execute the SQL statement
+$stmt->execute();
+
+// Check if the SQL statement is executed successfully
+if ($stmt->affected_rows > 0) {
+    echo json_encode(array("status" => "success", "message" => "File inserted successfully"));
+} else {
+    echo json_encode(array("status" => "failed", "message" => "Failed to insert file"));
+}
+
+// Close the statement and connection
+$stmt->close();
+$con->close();
+
     } 
 }
     else{
@@ -80,6 +109,46 @@ else{
 }
 
 
+//=========================================loadDescription function=========================================
+
+
+function loadDescription()
+{
+    include '../../DataBase.php';
+    $con = getDbConnection();
+    if ($con == null) {
+        $response = array("status" => "failed", "message" => "Database connection failed");
+        echo json_encode($response);
+    } else {
+        try {
+            $V_ID = 1;
+            $sql = "SELECT vs.title, vs.deadline, vs.addedDate, vs.time, vs.note FROM viva_submission AS vs WHERE V_ID = '$V_ID'";
+            $result = mysqli_query($con, $sql);
+            $data = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo json_encode(array("status" => "failed", "message" => "Failed to load text description"));
+        }
+        try {
+            $sql1 = "SELECT vs.File FROM viva_submission AS vs WHERE V_ID = '$V_ID'";
+            $result1 = mysqli_query($con, $sql1);
+            $doc_data = array();
+            while ($row1 = mysqli_fetch_assoc($result1)) {
+                // Base64 encode the document data
+                $doc = base64_encode($row1['File']);
+                $doc_data[] = $doc;
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo json_encode(array("status" => "failed", "message" => "Failed to load doc description"));
+        }
+        mysqli_close($con);
+
+        header('Content-Type: application/json');
+        echo json_encode(array("status" => "success", "textdata" => $data, "doc_datas" => $doc_data));
+    }
+}
 
 
 
@@ -104,60 +173,5 @@ else{
 
 
 
-// // Function to handle file submission
-// function submit($file){
-//     // Check if the file has been uploaded
-//     if(isset($file)){
-//         // Get the temporary file path
-//         $tmpFilePath = $file['tmp_name'];
-        
-//         // Check if the file exists
-//         if($tmpFilePath != ""){
-//             // Read the file content
-//             $fileContent = file_get_contents($tmpFilePath);
-            
-//             // Create a database connection
-//             $con = getDbConnection();
-            
-//             // Escape the file content to prevent SQL injection
-//             $escapedFileContent = mysqli_real_escape_string($con, $fileContent);
-            
-//             // Perform the SQL insert operation
-//             $sql = "INSERT INTO files (filecontent) VALUES ('$escapedFileContent')";
-//             $result = mysqli_query($con, $sql);
-//             // $result=true;
-//             // $result=false;
-//             // Check if the query was successful
-//             if($result){
-//                 echo json_encode(array("status" => "success"));
-//             }
-//             else{
-//                 echo json_encode(array("status"=>"failed","message"=>"Query Error but Database connectted "));
-              
-//             }
-            
-//             // Close the database connection
-//             mysqli_close($con);
-//         }
-//         else{
-//             echo json_encode(array("status" => "failed", "message" => "File not found"));
-//         }
-//     }
-//     else{
-//         echo json_encode(array("status" => "failed","message"=>" Error but Database connectted "));
-//     }
-// }
 
-// Function to get the database connection
-// function getDbConnection(){
-//     $db_host = "localhost";
-//     $db_user = "root";
-//     $db_password = "";
-//     $database = "watchstore";
-//     $con = mysqli_connect($db_host, $db_user, $db_password, $database);
-//     if (!$con) {
-//         die("Connection failed: " . mysqli_connect_error());
-//     }
-//     return $con;
-// }
 ?>

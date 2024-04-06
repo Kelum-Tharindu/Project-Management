@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
    
         console.log("js file loaded");
 
-    loadtTeamTable();
+    // loadtTeamTable();
     loadtindividualTable();
 
 
@@ -28,18 +28,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(response);
                 var count = 1;
                 // currentDisplayItems = response; //not used
-                response.forEach(item => {
-                    // Get details from
+                response.team_data.forEach(item => {
+                    
                     var taskname = item.title;
                     var marks = item.marks;
                     var comment = item.comment;
+                    var V_ID1=item.V_ID;
                     var doc= item.Doc;
-                    console.log(taskname, marks, comment, doc);
+                    console.log(taskname, marks, comment);
                     
-                    
-                    
-                    createRow(count,taskname, marks, comment, doc);
-                    count++;
+                   
+                        response.team_doc.forEach(item1 => {
+                          
+                            var doc= item1.Doc;
+                            var V_ID2=item1.V_ID;
+                            if(V_ID1==V_ID2){
+                                console.log("doc found");
+
+                                createRow(count,taskname, marks, comment, doc);
+                                count++;
+
+                            }
+
+                        });
+                        // createRow(count,taskname, marks, comment, doc);
+                        // count++;
                 });
                 
 
@@ -48,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
     
             error: function(error){
+        console.log("error");
                 console.error(error);
             }
         });
@@ -99,8 +113,17 @@ function createRow(count,taskname, marks, comment, doc) {
         comments.textContent = comment;
 
         var documents = document.createElement('td');
-        documents.textContent = doc;
+        var imeage = document.createElement('img');
+        var butndonwload = document.createElement('button');
+        // downloadButton.textContent = 'Download PDF';
+        butndonwload.id = "btndownload";
+        imeage.src = "Icon/pdf.png";
+  console.log('Content-Type: application/pdf' + doc);
+        
+ 
 
+        butndonwload.appendChild(imeage);
+        documents.appendChild(butndonwload);
         row.appendChild(tasknocol);
         row.appendChild(tasknamecol);
         row.appendChild(markscol);
@@ -117,9 +140,46 @@ function createRow(count,taskname, marks, comment, doc) {
 
     teamDiv.appendChild(table);
     console.log("Row created");
+
+
+
+    btndownload.addEventListener('click', function() {
+        // Decode the base64 encoded PDF data
+        var pdfData = atob(doc);
+        // Trigger the download of the PDF
+        downloadPDF(pdfData, 'document.pdf');
+    });
     }
 
 
+}
+
+
+
+
+
+
+function downloadPDF(pdfData, filename) {
+    // Create a blob from the PDF data
+    var blob = new Blob([pdfData], { type: 'application/pdf' });
+
+    // Create a temporary link element
+    var link = document.createElement('a');
+
+    // Set the href attribute to the URL of the blob
+    link.href = window.URL.createObjectURL(blob);
+
+    // Set the download attribute to the desired filename
+    link.download = filename;
+
+    // Append the link to the document body
+    document.body.appendChild(link);
+
+    // Trigger the click event of the link to start the download
+    link.click();
+
+    // Remove the link from the document body
+    document.body.removeChild(link);
 }
 
 //---------------------------------------------------------create individual marks table------------------------------------------------------------

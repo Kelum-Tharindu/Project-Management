@@ -11,6 +11,7 @@ body {
 .main{
     display: flex;
     flex-direction: column;
+    width: 100%;
     justify-content: center;
     align-items: center;
 
@@ -29,13 +30,15 @@ body {
 }
 .up{
     display: flex;
-    flex-flow: column;
+    /* flex-flow: column; */
+    justify-content: center;
     padding: 20px;
     background-color: #fff5;
     border-radius: 20px;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
-    width: 95%;
+    width: 60%;
     margin-bottom: 25px;
+    
 }
 #drop-area{
    
@@ -124,6 +127,17 @@ body {
     cursor: pointer;
     transition: 0.3s;
  }
+
+#docview button{
+    width: 37px;
+    height: 37px;
+    background-color: #7771;
+}
+#docview img{
+    width: 35px;
+    height: 35px;
+}
+
     button:hover{
         background-color: #777;
     }

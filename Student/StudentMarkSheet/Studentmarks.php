@@ -47,34 +47,42 @@ function getStudentMarks()
 {
     // $S_ID=$_COOKIE['S_ID'];
     //$T_ID=$_COOKIE['T_ID'];
-    $T_ID=1;
+    $T_ID = 1;
 
     include '../../DataBase.php';
     $databaseconnection = getDbConnection();
-if($databaseconnection == null){
-    $response=array("status"=>"failed","message"=>"Database connection failed");
-    echo json_encode($response);
-    
-}
-    $sql = "SELECT d.*, vs.*
-    FROM doc AS d
-    JOIN viva_submission AS vs ON d.V_ID = vs.V_ID
-    WHERE d.T_ID = '$T_ID';";
-    
-    $result = mysqli_query(getDbConnection(), $sql);
-    $team_data = array();
-
-    while($row = mysqli_fetch_array($result)){
-        $team_data[] = $row; 
+    if ($databaseconnection == null) {
+        $response = array("status" => "failed", "message" => "Database connection failed");
+        echo json_encode($response);
+        return;
     }
 
-    mysqli_close(getDbConnection()); //Close the database connection
+    $sql = "SELECT d.D_Name, d.marks, d.marks, d.comment, d.V_ID, vs.title
+            FROM doc AS d
+            JOIN viva_submission AS vs ON d.V_ID = vs.V_ID
+            WHERE d.T_ID = '$T_ID'";
+
+    $result = mysqli_query($databaseconnection, $sql);
+    $team_data = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $team_data[] = $row;
+    }
+
+    $sql1 = "SELECT d.V_ID, d.Doc FROM doc d WHERE d.T_ID = '$T_ID'";
+    $result1 = mysqli_query($databaseconnection, $sql1);
+    $team_doc = array();
+    while ($row1 = mysqli_fetch_assoc($result1)) {
+        // Base64 encode the document data
+        $doc_data = base64_encode($row1['Doc']);
+        $team_doc[] = array('V_ID' => $row1['V_ID'], 'Doc' => $doc_data);
+    }
+
+    mysqli_close($databaseconnection);
 
     header('Content-Type: application/json');
-    $json_data = json_encode($team_data);
-    echo $json_data;
-
+    echo json_encode(array("status" => "success", "team_data" => $team_data, "team_doc" => $team_doc));
 }
+
 
 
 
