@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>student requst</title>
     <link rel="stylesheet" href="studentrequest.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="studentrequest.js"></script>
 </head>
 <body>
@@ -14,13 +15,14 @@
                 <div class="title">
                     <h3>Make your request</h3>
                 </div>
-                <div class="requestwrite">
-                    <input type="text" class="textrequest" placeholder="Enter your request">
-                    <div class="btn">
-                        <button class="btnrequest">Request</button>
-                        <button class="btnrequest">clear</button>
-                    </div>
+                <div id="requestwrite1" class="requestwrite">
+                    <textarea id="textareaRequest" class="textrequest" placeholder="Enter your request"></textarea>
                 </div>
+                    <div class="btn">
+                        <button class="btnrequest" id="btnrequest">Request</button>
+                        <button class="btnrequest" id="btnback">Back</button>
+                    </div>
+             </div>
         </div>
         
         <div id="viewRequest">
@@ -30,7 +32,15 @@
                 </div>
 
                 <div class="requestwrite">
-                    <label class="textrequest">request</label>          
+                    <label  class="textrequest">
+                        <div> <h3 id="view-label"></h3> </div>
+                        <div><h3 id="view-lable1"></h3></div>
+                        <div><h4 id="view-lable2"></h4></div>
+                        <div><h3 id="view-lable3"></h3></div>
+                        <div><h4 id="view-lable4"></h4></div>
+                       
+                        
+                    </label>          
                 </div>   
         </div>
 
@@ -39,9 +49,10 @@
 
     </div>
     <div class="logsheet">
-        <div class="container">
+        <h1>Log sheet</h1>
+        <div id="tablediv" class="container">
        
-            <table>
+            <!-- <table>
                 <thead>
                     <tr>
                         <div class="heading">
@@ -82,7 +93,7 @@
                          
                             <td>ER report</td>
                         </tr>
-            </table>
+            </table> -->
           
         </div>
     </div>

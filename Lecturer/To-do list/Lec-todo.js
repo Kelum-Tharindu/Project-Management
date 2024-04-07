@@ -44,8 +44,8 @@ showTask();
 
 
 
-$(function() {
-    $("#nav").load("../C:\Users\User\Desktop\FinalProject\Navigation bar", function() {
-    });
-});
+// $(function() {
+//     $("#nav").load("../C:\Users\User\Desktop\FinalProject\Navigation bar", function() {
+//     });
+// });
 

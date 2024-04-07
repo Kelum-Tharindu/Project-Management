@@ -25,17 +25,28 @@ body{
 .textrequest{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
     width: 90%;
     margin: auto;
-    height: 7rem;
+    height: 100%;
     margin-top: 5px;
+    margin-bottom: 7px;
     border-radius: 18px;
     background-color: #7777;
     border: white 1.5px solid;
+    padding: 15px;
+    padding-left: 40px;
     /* margin-top: 20px; */
 
+}
+.textrequest h4{
+    padding-left: 90px;
+    padding-top: 0px;
+}
+#requestwrite1{
+    height: 7rem;
 }
 .btn{
     margin-top: 2rem;
@@ -54,7 +65,7 @@ body{
     margin-left: 1rem;
     width: 10rem;
     height: 3rem;  
-    background-color:  #7775;
+    background-color:  #7777;
     color: white;
     font-size: 18px;
     border: white 1px solid;
@@ -64,9 +75,9 @@ body{
 
 }
 .btnrequest:hover{
-    background-color: #7777;
+    background-color: #7775;
     color: black;
-    border: black 1px solid;
+    border: white 1px solid;
 }
 
 .requestwrite{
@@ -87,6 +98,7 @@ body{
     height: 50%;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -99,6 +111,7 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin-top: -20rem;
     /* display: none; */
 
 }
@@ -117,6 +130,12 @@ body{
     /* background-color: #7777; */
     /* border: white 1.5px solid; */
     /* margin-top: 20px; */
+
+}
+.logsheet h1{
+font-size:35px;
+text-align: center;
+text-decoration: underline;
 
 }
 

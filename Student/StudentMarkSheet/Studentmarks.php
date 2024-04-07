@@ -66,7 +66,9 @@ function getStudentMarks()
     $team_data = array();
     while ($row = mysqli_fetch_assoc($result)) {
         $team_data[] = $row;
+       
     }
+    
 
     $sql1 = "SELECT d.V_ID, d.Doc FROM doc d WHERE d.T_ID = '$T_ID'";
     $result1 = mysqli_query($databaseconnection, $sql1);
@@ -103,7 +105,7 @@ if($databaseconnection == null){
     echo json_encode($response);
     
 }
-    $sql = "SELECT vs.*, v.*
+    $sql = "SELECT vs.*, v.title
     FROM viva_student AS vs
     JOIN viva_submission AS v ON vs.V_ID = v.V_ID
     WHERE vs.S_ID = '$S_ID'";
