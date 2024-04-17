@@ -1,7 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
 const sideMenu = document.querySelector("#aside");
 const menuBtn = document.querySelector("#menu-btn");
 const closeBtn = document.querySelector("#close-btn");
 const themeToggler = document.querySelector(".theme-toggler");
+
 
 //  Show Sidebar
 menuBtn.addEventListener('click', () => {
@@ -84,7 +86,7 @@ function deleteEvent(eventId) {
 
 // Function to display reminders
 function displayReminders() {
-	reminderList.innerHTML = "";
+	// reminderList.innerHTML = "";
 	for (let i = 0; i < events.length; i++) {
 		let event = events[i];
 		let eventDate = new Date(event.date);
@@ -291,4 +293,69 @@ function daysInMonth(iMonth, iYear) {
 // Call the showCalendar function initially to display the calendar
 showCalendar(currentMonth, currentYear);
 
+
+// =====================================================================================
+
+
+team();
+var teamupdate = document.getElementById("teamupdate");
+var teamview = document.getElementById("teamview");
+teamupdate.addEventListener('click', function(){
+	window.location.href = "../CreateTeam/Stu-CreateTeam.html"; 
+});
+
+teamview.addEventListener('click', function(){
+	window.location.href = "../CreateTeam/Stu-CreateTeam.html"; 
+
+});
+
+});
+
+
+function team() {
+	$.ajax({
+		url: 'Stu-Dashboard.php',
+		method: 'POST',
+		data: {
+			functionName: 'team'
+			
+		},
+		
+		dataType: 'json',
+		
+		success: function(response) {
+			console.log(response);
+			
+				if(response == ''){
+					console.log("No team found");
+				teamupdate();
+					
+				}
+				else{
+					console.log("Team found");
+					console.log(response);
+					teamview();
+				}
+                
+			
+			
+		},
+		error: function(error) {
+			console.error(error);
+			console.log("Login failed error");
+			alert("Invalid email or password, please try again error.");
+		}
+	});
+}
+
+function teamview(){
+	document.getElementById("teamupdate").style.display = "none";
+	document.getElementById("teamview").style.display = "flex";
+
+}
+function teamupdate(){
+	document.getElementById("teamview").style.display = "none";
+	document.getElementById("teamupdate").style.display = "flex";
+	
+}
 

@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="Stu-CreateTeam.css" rel="stylesheet">
-    <title>Document</title>
+    <script src="Stu-Create.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Student Create Team</title>
 </head>
 <body>
     <header class="header">
@@ -19,35 +21,71 @@
 
            </label>
 
-        <nav class="navbar">
+            <nav class="navbar">
 
                 <a href="#" style="--i:0;">Dashboard</a>
                 <a href="#" style="--i:1;">About Us</a>
                 <a href="#" style="--i:2;">Contact Us</a>
                 <a href="#" style="--i:3;">Profile</a>
-        </nav>
+         </nav>
 
-</header>
+            </header>
 
-    <div class="container">
-        <div class="containerMain">
+         <div class="container">
+            <div class="containerMain">
+           <div class="addteammember" id="addteammember">
                         <h1>Create Your Team</h1>
-
+                        <div class="name">
+                            <h2>Team Name:</h2>
+                            <input type="text" id="teamname" class="teamname" placeholder="Enter Your Team Name">
+                        </div>
+                      <div class="containerMain1">
                         <h2>Select Your Team Members:</h2>
-                    <ul>
-                        <li>Fist Team Member:  <select></select></li>
-                        <li>Second Team Member: <select></select></li>
-                        <li>Third Team Member: <select></select></li>
-                        <li>Fourth Team Member: <select></select></li>
-                        <li>Fifth Team Member: <select></select></li>
-                    </ul>
+                        <div class="table">
+                <table>
+                    <tr>
+                        <td  class="clm1" >Select First Member</td>
+                        <td class="clm2" ><select class="combo" id="firstcom" ><option>-select member-</option></select></td>
+                    </tr>
+                    <tr>
+                        <td  class="clm1" >Select Second Member</td>
+                        <td class="clm2"  ><select class="combo"  id="secondcom"><option>-select member-</option></select></td>
+                    </tr>
+                    <tr>
+                        <td  class="clm1">Select Third Member</td>
+                        <td class="clm2" ><select class="combo" id="thirdcom"><option>-select member-</option></select></td>
+                    </tr>
+                    <tr>
+                        <td  class="clm1">Select Fourth Member</td>
+                        <td class="clm2" ><select class="combo" id ="fourthcom" ><option>-select member-</option></select></td>
+                    </tr>
+                    <tr>
+                        <td  class="clm1">Select Fifth Member</td>
+                        <td class="clm2" ><select class="combo" id="fifthcom"><option>-select member-</option></select></td>
+                    </tr>
+                    
+                       
+                   
+                </table>
+                <button class="add" id="add">Add</button>
+                        
+                
+            </div>
+            </div>
+         </div>
 
+         <div class="viewteammember" id="viewteammember">
+            <h1>Your Team Members</h1>
+            </div>
+
+
+            <div class="requsetadd" id="requsetadd">
                     <h2>Select Your Supervisor:</h2>
                     <h2 id="Tag">Meet Our Mastroes</h2>
 
                     <div class="BoxMain">
 
-                            <div class="box">
+                            <div class="box" id="lecinfro1">
 
                                 <div class="imgBx" id="imgBx">
                                     <img src="Ms.-Ashanthi-Kurukulasuriya-2-1-1.jpg">
@@ -58,11 +96,11 @@
                                     
                                 </div>
 
-                                <a href="#" class="request">Request</a>
+                                <button class="request" id="lec1">Request</button>
 
                             </div>
 
-                            <div class="box">
+                            <div class="box" id="lecinfro2">
 
                                 <div class="imgBx">
                                     <img src="Ms.-Sandaruwani-Mala-1.jpg">
@@ -73,11 +111,11 @@
                                     
                                 </div>
 
-                                <a href="#" class="request">Request</a>
+                                <button class="request" id="lec2">Request</button>
 
                             </div>
 
-                            <div class="box">
+                            <div class="box" id="lecinfro3">
 
                                 <div class="imgBx">
                                     <img src="Ms.-Thilini-Dharmasena-1.png">
@@ -87,11 +125,11 @@
                                     <h4>Ms.Thilini Dharmasena<br> <span> Lecturer</span></h4>
                                     
                                 </div>
-                                <a href="#" class="request">Request</a>
+                                <button class="request" id="lec3">Request</button>
 
                             </div>
 
-                            <div class="box">
+                            <div class="box" id="lecinfro4">
 
                                 <div class="imgBx">
                                     <img src="#">
@@ -101,18 +139,22 @@
                                     <h4>Mr.Supun Asanga <br><span> Consultant/Lecturer</span></h4>
                                     
                                 </div>
-                                <a href="#" class="request" id="request">Request</a>
+                                <button class="request" id="lec4">Request</button>
 
                             </div>
 
                     </div>
 
-                    <a href="#" class="continue" id="continue">Continue</a>
+                   
 
-        </div>
+                </div>
+                 
+                    <div id="requsetview">
+                        <h2>Requestted Supervisor:</h2>
+                    </div>
 
 
-
+           
     </div>
 </body>
 </html>

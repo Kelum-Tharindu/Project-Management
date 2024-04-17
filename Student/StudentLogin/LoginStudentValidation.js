@@ -91,7 +91,7 @@ eyeopen1.addEventListener('click', function() {
                 console.log(response);
                 if (response.status === "success") {
                   console.log("Login successful");
-                    // window.location.href = "../home.html"; // If login is successful, redirect to home.html
+                    window.location.href = "../Stu-Dashboard/Stu-Dashboard.html"; 
                 } else {
                     console.log("Login failed");
                     alert("Invalid email or password, please try again.");
@@ -179,7 +179,7 @@ else if(!email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/) )
                     // window.location.href = "../home.html"; // If login is successful, redirect to home.html
                 } else {
                     console.log("Login failed");
-                    alert("Invalid email or password, please try again.");
+                    alert("Invalid Sing up try again.");
                 }
             },
             error: function(error) {

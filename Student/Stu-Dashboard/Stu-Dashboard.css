@@ -489,6 +489,24 @@ main .Modules > div{
     display: flex;
     font-weight: 600;
 }
+
+#teamupdate,
+#teamview{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    box-shadow: #3e3d3d;
+    background-color: #7773;
+    
+    
+
+
+}
+
+
+
 /* 
 Media Queries */
 

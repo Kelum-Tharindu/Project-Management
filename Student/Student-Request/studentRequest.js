@@ -45,17 +45,18 @@ function loadContent(){
                 var next = item.nextTarget;
                 var comment = item.comment;
                 var meetdate = item.meetdate;
+                var replyORnot = item.replyORnot;
 
-                if(reply == ""){
+                if(replyORnot == 0){
                         tt=1;  
-                        displayarea1();
+                        var dd=displayarea1();
                 }
                 else{
 
                     if(next=="" && comment==""){
                         tt=2;
                         displayarea2(reply,request);
-                        console.log("hgggjgjgggggg"+tt);
+                        // console.log("hgggjgjgggggg"+tt);
                     }
                     else{
                         console.log(count, members, next, comment, meetdate);
@@ -66,19 +67,19 @@ function loadContent(){
 
             
                
-                // console.log(request, requestdate, reply, replydate, members, next, comment, meetdate);
-                
-                
-                
-                // createindividualRow(count,taskname, marks, comment);
+        
                 count++;
+                if(tt==0){
+                    console.log("Add Request displayed");
+        document.getElementById("viewRequest").style.display = "none";
+        document.getElementById("addRequest").style.display = "flex";
+                }
+                
+                
             });
-            if(tt==0){
-                console.log("Add Request displayed");
-    document.getElementById("viewRequest").style.display = "none";
-    document.getElementById("addRequest").style.display = "flex";
-            }
+
             
+    
 
          
             console.log("Item Data fetch success");
@@ -97,6 +98,7 @@ function createtable(count, meetdate, members,comment,next) {
 console.log("createRow called"+count);
 
 if(count==0){
+    console.log("Table head created");
 
     var tablediv = document.getElementById('tablediv');
     var table = document.createElement('table');
@@ -155,6 +157,7 @@ if(count>-1){
     row.appendChild(next1);
     var tbody1=document.getElementById('tbodyid1');
     tbody1.appendChild(row);
+    
 
     
  
@@ -168,7 +171,7 @@ console.log("Row created");
 
 
 }
-function displayarea1(){
+function  displayarea1(){
     console.log("displayarea1 called");
     document.getElementById("addRequest").style.display = "none";
    document.getElementById("viewRequest").style.display = "flex";
@@ -179,6 +182,7 @@ function displayarea1(){
    lable1.style.alignItems="center";
     lable1.style.fontSize="28px";
     lable1.textContent=("you have a pending request!!!");
+    return;
     
 }
 function displayarea2(reply,request){
@@ -207,6 +211,11 @@ btnback.addEventListener('click', function(){
     window.location.href = "../Stu-Dashboard/Stu-Dashboard.html";
 
 });
+
+
+
+
+// ===========================================Add Request===========================================
 
 btnrequest.addEventListener('click', function(){
     console.log("add button clicked");

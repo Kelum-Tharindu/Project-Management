@@ -27,35 +27,35 @@ function accessDenied()
 
 
 
-function validateLogin($email, $password){ // check for the login credentials in database
+// Validate login function
+function validateLogin($email, $password) {
     include '../../DataBase.php';
-        $databaseconnection = getDbConnection();
-    if($databaseconnection == null){
-        $response=array("status"=>"failed","message"=>"Database connection failed");
-        echo json_encode($response);
-        
-    }
-    else{
-        
-    
+   
+    $dbConnection = getDbConnection();
+    if ($dbConnection) {
         $sql = "SELECT * FROM lecturer WHERE L_Email = '$email' AND L_PW = '$password'";
-        $result = mysqli_query(getDbConnection(), $sql);
-        $num=mysqli_num_rows($result);
-    
-        if(mysqli_num_rows($result) > 0){
-            $row = mysqli_fetch_array($result);
-            
-            setcookie("studentID", $row['L_ID'], time() + (86400 * 30), "/");
-            setcookie("email", $email, time() + (86400 * 2), "/");        
-            setcookie("password", $password, time() + (86400 * 30), "/");
-            
-            echo json_encode(array("status" => "success","message"=>"---Login Successfull HAVE DATA---"));
-            
+        $result = mysqli_query($dbConnection, $sql);
+        
+        if ($result) {
+            $num = mysqli_num_rows($result);
+            if ($num > 0) {
+                $row = mysqli_fetch_array($result);
+                
+                setcookie("L_ID", $row['L_ID'], time() + (86400 * 30), "/");
+                setcookie("L_Name", $row['L_Name'], time() + (86400 * 2), "/");        
+               
+                echo json_encode(array("status" => "success","message"=>"---Login Successful, Data Available---"));
+            } else {
+                echo json_encode(array("status" => "failed","message"=>"No records found."));
+            }
+        } else {
+            // Handle MySQL server gone away error
+            echo json_encode(array("status" => "failed","message"=>"MySQL server has gone away."));
+           
         }
-        else{
-            echo json_encode(array("status" => "failed","message"=>"Query Error but Database connectted $email $password $num"));
-            
-        }
+    } else {
+        echo json_encode(array("status" => "failed","message"=>"Database connection failed."));
     }
-    }
+}
+
 

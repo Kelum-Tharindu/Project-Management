@@ -36,8 +36,8 @@ function accessDenied(){
 function loadContent()
 {
   
-    //$T_ID=$_COOKIE['T_ID'];
-    $T_ID=1;
+    $T_ID=$_COOKIE['T_ID'];
+    // $T_ID=1;
    
 
     include '../../DataBase.php';
@@ -52,13 +52,12 @@ if($databaseconnection == null){
     
     $result = mysqli_query(getDbConnection(), $sql);
     $team_data = array();
-    // echo("================pass=========================");
-
+   
     while($row = mysqli_fetch_array($result)){
         $team_data[] = $row; 
 
     }
-//  echo("================pass=========================");
+
     mysqli_close(getDbConnection()); //Close the database connection
 
     header('Content-Type: application/json');
@@ -74,8 +73,9 @@ if($databaseconnection == null){
 
 function addRequest()
 {
-    // $T_ID=$_COOKIE['T_ID'];
-    $T_ID=1;
+    $T_ID=$_COOKIE['T_ID'];
+    $L_ID=$_COOKIE['L_ID'];
+    // $T_ID=1;
     $request=$_POST['request'];
     $date=date("Y-m-d");
     include '../../DataBase.php';
@@ -87,7 +87,7 @@ function addRequest()
     }
     else{
     
-        $sql = "INSERT INTO request (Description,Req_date) VALUES ('$request', '$date')";
+        $sql = "INSERT INTO request (Description,Req_date,T_ID,L_ID) VALUES ('$request', '$date','$T_ID','$L_ID')";
         $result = mysqli_query(getDbConnection(), $sql);
     
         if($result){

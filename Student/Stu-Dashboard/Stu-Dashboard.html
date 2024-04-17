@@ -6,6 +6,7 @@
     <!-- Material CDN -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
       rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
       
     <link rel="stylesheet" href="Stu-Dashboard.css">
     <title>Student's Dashboard</title>
@@ -31,43 +32,44 @@
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="#">
+                <a href="#" id="menu-profile">
                     <span class="material-icons-sharp">
                         account_circle
                         </span>
                     <h3>Profile</h3>
                 </a>
 
-                <a href="#">
+                <a href="../Student-Request/studentrequest.html" id="menu-notification">
                     <span class="material-icons-sharp">
                         notifications
                         </span>
-                    <h3>Notifications</h3>
-                    <span class="message-count">26</span>
+                    <h3> Request</h3>
+                    <!-- <span class="message-count">26</span> -->
                 </a>
 
-                <a href="#">
+
+                <a href="../StudentSubmitPage/submisionPage.html" id="menu-event">
                     <span class="material-icons-sharp">
                         event
                         </span>
                     <h3>Upcoming Events</h3>
                 </a>
 
-                <a href="#">
+                <!-- <a href="#" id="menu-setings">
                     <span class="material-icons-sharp">
                         settings
                         </span>
                     <h3>Setting</h3>
-                </a>
+                </a> -->
 
-                <a href="#">
+                <a id="menu-result" href="../StudentMarkSheet/Studentmarks.html">
                     <span class="material-icons-sharp">
                         description
                         </span>
                     <h3>Results</h3>
                 </a>
 
-                <a href="#" id="LogOut">
+                <a href="../../Welcome/Welcome.html" id="LogOut">
                     <span class="material-icons-sharp">
                         logout
                         </span>
@@ -92,19 +94,19 @@
 
         <div class="Modules">
             <div class="Modules">
-            <h2>Modules shows here</h2>
-            <table>
-            </table>
-            <div class="AddingFuntions">
-                
-                <div class="Add">
-                    <span class="material-icons-sharp">
-                        add
-                        </span>
-                        <h3><a href="#">Add Module</a></h3>
-    
+                <div id="teamupdate">
+                    <h2>Create Your Team</h2>
+                    <p>Join a team or create your own to collaborate with your peers on projects, assignments, and more.</p>
+
                 </div>
-            </div>
+                <div id="teamview">
+                    <h2> View Your Team</h2>
+                    <p>View Your Team Details</p>
+
+                    
+
+                </div>
+            
             </div>
         </div>
     </main>

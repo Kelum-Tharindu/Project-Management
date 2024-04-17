@@ -64,7 +64,7 @@ var btnLogin = document.getElementById('btn-Login');
                 console.log(response);
                 if (response.status === "success") {
                   console.log("Login successful");
-                    // window.location.href = "../home.html"; // If login is successful, redirect to home.html
+                    window.location.href = "../LecturerDashboard/Lec-Dashboard.html"; // If login is successful, redirect to home.html
                 } else {
                     console.log("Login failed");
                     alert("Invalid email or password, please try again.");

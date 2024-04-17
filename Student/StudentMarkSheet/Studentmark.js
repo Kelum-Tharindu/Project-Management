@@ -74,8 +74,15 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("createRow called"+count);
         
         if(count==1){
+            var title = document.createElement('h3');
+            title.textContent = 'Team Marks';
+            title.className = 'subtitle';
+            title.style.padding = '25px';
+            title.style.fontSize = '22px';
+
 
             var teamDiv = document.getElementById('team');
+            teamDiv.appendChild(title);
             var table = document.createElement('table');
             table.id = 'teamTable';
 

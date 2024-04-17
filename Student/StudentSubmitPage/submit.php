@@ -50,8 +50,8 @@ if($con == null){
 }
 else{
 
-            // $T_ID=$_COOKIE['T_ID'];
-            $T_ID=1;
+            $T_ID=$_COOKIE['T_ID'];
+            // $T_ID=1;
             // $V_ID=$_SESSION['V_ID'];
             $V_ID=1;
 
@@ -122,6 +122,7 @@ function loadDescription()
     } else {
         try {
             $V_ID = 1;
+
             $sql = "SELECT vs.title, vs.deadline, vs.addedDate, vs.time, vs.note FROM viva_submission AS vs WHERE V_ID = '$V_ID'";
             $result = mysqli_query($con, $sql);
             $data = array();

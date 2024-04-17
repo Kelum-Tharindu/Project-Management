@@ -45,9 +45,9 @@ function accessDenied(){
 
 function getStudentMarks()
 {
-    // $S_ID=$_COOKIE['S_ID'];
-    //$T_ID=$_COOKIE['T_ID'];
-    $T_ID = 1;
+ 
+    $T_ID=$_COOKIE['T_ID'];
+    // $T_ID = 1;
 
     include '../../DataBase.php';
     $databaseconnection = getDbConnection();
@@ -74,10 +74,18 @@ function getStudentMarks()
     $result1 = mysqli_query($databaseconnection, $sql1);
     $team_doc = array();
     while ($row1 = mysqli_fetch_assoc($result1)) {
-        // Base64 encode the document data
-        $doc_data = base64_encode($row1['Doc']);
-        $team_doc[] = array('V_ID' => $row1['V_ID'], 'Doc' => $doc_data);
+        // Check if the document data is not null
+        if ($row1['Doc'] !== null) {
+            // Base64 encode the document data
+            $doc_data = base64_encode($row1['Doc']);
+            $team_doc[] = array('V_ID' => $row1['V_ID'], 'Doc' => $doc_data);
+        } else {
+            // If the document data is null, handle it accordingly (e.g., set it to an empty string or handle as needed)
+            $doc_data = ""; // Or any other suitable value or handling
+            $team_doc[] = array('V_ID' => $row1['V_ID'], 'Doc' => $doc_data);
+        }
     }
+    
 
     mysqli_close($databaseconnection);
 
@@ -94,8 +102,8 @@ function getStudentMarks()
 function getStudentindividualMarks()
 {
   
-    //$T_ID=$_COOKIE['T_ID'];
-    $S_ID=1;
+    $S_ID=$_COOKIE['S_ID'];
+    // $S_ID=1;
    
 
     include '../../DataBase.php';

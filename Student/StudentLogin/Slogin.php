@@ -98,21 +98,31 @@ else{
 
     $sql = "SELECT * FROM student WHERE S_Email = '$email' AND S_PW = '$password'";
     $result = mysqli_query(getDbConnection(), $sql);
-
+    
     if(mysqli_num_rows($result) > 0){
         $row = mysqli_fetch_array($result);
-        
-        setcookie("studentID", $row['S_ID'], time() + (86400 * 30), "/");
-        setcookie("email", $email, time() + (86400 * 2), "/");        
-        setcookie("password", $password, time() + (86400 * 30), "/");
-        
-        echo json_encode(array("status" => "success"));
-        
+        setcookie("S_ID", $row['S_ID'], time() + (86400 * 30), "/");
+        setcookie("Name", $row['S_Name'], time() + (86400 * 30), "/");
+    
+        $TEAMID = $row['T_ID'];
+    
+        $sql1 = "SELECT * FROM team WHERE T_ID = '$TEAMID' ";
+        $result1 = mysqli_query(getDbConnection(), $sql1);
+    
+        if(mysqli_num_rows($result1) > 0){
+            $row1 = mysqli_fetch_array($result1);
+            setcookie("T_ID", $row1['T_ID'], time() + (86400 * 30), "/");
+            setcookie("L_ID", $row1['L_ID'], time() + (86400 * 30), "/");
+            echo json_encode(array("status" => "success"));
+        }
+        else{
+            echo json_encode(array("status" => "failed", "message" => "Query Error but Database connected"));
+        }
     }
     else{
-        echo json_encode(array("status" => "failed","message"=>"Query Error but Database connectted "));
-        
+        echo json_encode(array("status" => "failed", "message" => "Query Error but Database connected"));
     }
+    
 }
 }
 

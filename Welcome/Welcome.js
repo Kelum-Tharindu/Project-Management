@@ -9,9 +9,15 @@ for (let i = 0; i < numberOfColorBoxes; i++) {
     }
 
     // Add click event listener to the button
-    document.getElementById("exploreBtn").addEventListener("click", function() {
+    document.getElementById("exploreBtnSTUDENT").addEventListener("click", function() {
         // Redirect to LoginStudent.html
-        window.location.href = "LoginStudent.html";
+        window.location.href = "../Student/StudentLogin/LoginStudent.html";
     });
+
+    document.getElementById("exploreBtnLECTURER").addEventListener("click", function() {
+        // Redirect to LoginStudent.html
+        window.location.href = "../Lecturer/LecturerLogin/LoginLecturer.html";
+    });
+
 
    
