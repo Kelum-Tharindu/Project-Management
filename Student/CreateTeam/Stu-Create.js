@@ -308,7 +308,9 @@ var table1=document.getElementById('table1');
 function teamupdate(){
 document.getElementById('addteammember').style.display='block';
 document.getElementById('viewteammember').style.display='none';
+document.getElementById('requsetadd').style.display='block';
 loadtcombo();
+
 
 }
 function teamview(){

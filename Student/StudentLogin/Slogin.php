@@ -116,13 +116,16 @@ else{
             echo json_encode(array("status" => "success"));
         }
         else{
-            echo json_encode(array("status" => "failed", "message" => "Query Error but Database connected"));
-        }
+            setcookie("T_ID", '', time() + (86400 * 30), "/");
+            setcookie("L_ID", '', time() + (86400 * 30), "/");
+            echo json_encode(array("status" => "success"));
     }
-    else{
-        echo json_encode(array("status" => "failed", "message" => "Query Error but Database connected"));
-    }
+   
     
+}
+else{
+    echo json_encode(array("status" => "failed", "message" => "Query Error but Database connected"));
+}
 }
 }
 

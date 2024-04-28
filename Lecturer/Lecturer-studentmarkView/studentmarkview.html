@@ -9,6 +9,15 @@
     
     <script src="studentmarkview.js"></script>
 </head>
+<header>
+    <div class="navbar123">
+
+        <!-- getting navbar from Other file use ID(nav)-->
+        <div id="nav123"></div>
+    
+    
+    </div>
+</header>
 <body>
     <div class="main" id="marks">
         <div class="title">
@@ -17,25 +26,25 @@
         <div class="filter">
             <label for="course">Course</label>
             <select name="course" id="course">
-                <option value="*">Select</option>
+                <option value="">Select</option>
                 </select>
 
             </select>
             <label for="batch">Batch</label>
             <select name="batch" id="batch">
-                <option value="*">Select</option>
+                <option value="">Select</option>
             </select>
 
             <label for="index">Index</label>
 
             <select name="index" id="index">
-                <option value="*">Select</option>
+                <option value="">Select</option>
                 <option value="1">1</option>
             </select>
             
             <button class="btn" id="btnfilter">Filter</button>
         </div>
-        <div class="table">
+        <div class="table" id="tdiv">
             <!-- <table>
                 <tr id="row1"  >
                     <th class="clm1">Student ID</th>
@@ -71,17 +80,17 @@
             <h1>Student Mark Sheet</h1>
         </div>
         <div class="filter">
-            <label>Student Name:</label>
+            <label class="qq">Student Name:</label>
             <label class="rply">Student 1</label>
 
-            <label>Student ID: </label>
-            <label>1</label>
+            <label class="qq">Student ID: </label>
+            <label class="rply">1</label>
 
-            <label>Total:</label>
-            <label>30</label>
+            <label class="qq">Total:</label>
+            <label class="rply">30</label>
 
-            <label>Grade:</label>
-            <label>A</label>
+            <label class="qq">Grade:</label>
+            <label class="rply">A</label>
             
         </div>
         <div class="table">

@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', function(){
     console.log('hi');
     loadtcombo();
+     
+    fetch('../Navigation-bar/Nav-Bar.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('nav123').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error fetching content:', error);
+    });
 
 // function popupwindow(){
 //     console.log('click');
@@ -19,11 +28,24 @@ document.getElementById('btnclose').addEventListener('click', popupwindow);
 
 btnfilter.addEventListener('click', function(){
     console.log("Filter button clicked");
+    
     var course = document.getElementById('course').value;
     var batch = document.getElementById('batch').value;
     var index = document.getElementById('index').value;
-    loadContent(course, batch, index);
-  
+
+    if(course=='' || batch=='')
+    {
+        alert("Please select course and batch");
+        return;
+    }
+    else{
+    var rr=1;
+    if(index=='')
+    {
+       rr=0; 
+    }
+    loadContent(course, batch, index,rr);
+}
 
 });
 
@@ -47,8 +69,8 @@ function popupwindow(){
 }
 
 
-function loadContent(course,batch,index){ 
-    console.log(" load Content called");
+function loadContent(course, batch, index,rr) {
+    console.log("loadContent called");
     $.ajax({
         url: 'studentmarkview.php',
         method: 'POST',
@@ -56,88 +78,134 @@ function loadContent(course,batch,index){
             functionName: 'loadContent',
             course: course,
             batch: batch,
-            index: index,
-            
-            
+            rr:rr,
+            index: index
         },
-        
         dataType: 'json',
-        
-        // When http request is success
-        success: function(response){
-            console.log("data readed from db successfullly")
-            console.log(response);
-            var count = 0;
-            var tt=0;
-            // currentDisplayItems = response; //not used
-            response.forEach(item => {
-                // Get details from
-               var index1 = item.S_Index;
-               var name= item.S_Name;
-               var inmark = item.inmarks;
-               var docmark = item.docmarks;
-               var Total = item.Tot;
-                
-                        console.log(index,name,docmark,inmark,Total);
-                        // createtable(count,request, requestdate, reply, replydate, members, next, comment, meetdate);
-                        createtable(index,name,docmark,inmark,Total);          
-                            
-                
-        
-                count++;
+        success: function(response) {
+            console.log("Data received from PHP script:", response);
+            if (response.team_data.length == 0) {
+                console.log("No data found for the selected course and batch");
+                alert("No data found for the selected course and batch");
+                return;
+            }
+    
+            // Check if the response contains team_data array
+            if (response.hasOwnProperty('team_data')) {
+                var teamData = response.team_data;
+                console.log("Team data array:", teamData);
+                var i=0;
+                console.log("for each first i====="+i);
               
-                
-                
-            });
-
-           
-            console.log("Item Data fetch success");
+                teamData.forEach(function(row) {
+                    console.log("for each i====="+i);
+                    // Access properties of each row
+                    var index1 = row.S_Index;
+                    var name = row.S_Name;
+                    var T_ID = row.T_ID;
+                    var inmark = row.inmark;
+                    var docmark = row.docmark;
+                    var Total = row.Tot;
+                   
+    
+                    // Do whatever you need with the data
+                    console.log("T_ID:", T_ID, "inmark:", inmark, "docmark:", docmark, "Total:", Total, "index:", index1, "name:", name);
+                    createtable(index1, name, inmark, docmark, Total,i);
+                    i++;
+                console.log("header row created==="+i);
+                });
+            } else {
+                console.error("team_data array not found in response");
+            }
         },
-
-        error: function(error){
-            console.error(error);
+        error: function(xhr, status, error) {
+            console.error("Error fetching data:", error);
         }
     });
 }
 
-function createtable(index,name,docmark,inmark,Total){
+
+function createtable(index,name,docmark,inmark,Total,i){
+    console.log("create table called"+i);
+
+    if(i==0){
 // Create table element
 var table = document.createElement('table');
+table.id = 'table123';
 
 // Create header row
 var headerRow = document.createElement('tr');
+headerRow.id = 'row1';
 
 // Define header column texts
 var headers = ['Student ID', 'Student Name', 'Team Marks', 'Individual Marks', 'Total Marks'];
 
 // Create th elements for each header
 headers.forEach(function(headerText) {
+    i++;
     var th = document.createElement('th');
     th.textContent = headerText;
+    if(i==1){
+        th.className = 'clm1';
+    }
+    if(i==2){
+        th.className = 'clmname';
+    }
+    if(i==6){
+        th.className = 'clm2';
+    }
     headerRow.appendChild(th);
+
+    
 });
+i=0;
+
 
 // Append the header row to the table
 table.appendChild(headerRow);
+var div = document.getElementById('tdiv');
+div.appendChild(table);
+    }
 
 // Create a data row
 var dataRow = document.createElement('tr');
+dataRow.id = index;
 
 // Define data cell texts
 var data = [index, name, docmark, inmark, Total];
-
+var y=0;
 // Create td elements for each data cell
 data.forEach(function(dataText) {
+    y++;
     var td = document.createElement('td');
     td.textContent = dataText;
+    if(y==1){
+        td.className = 'clm1';
+    }
+    if(y==2){
+        td.className = 'clmname';
+    }
+    if(y==6){
+        td.className = 'clm2';
+    }
     dataRow.appendChild(td);
 });
-
+y=0;
+var table123 = document.getElementById('table123');
 // Append the data row to the table
-table.appendChild(dataRow);
+table123.appendChild(dataRow);
 
-// Add table to the document body
-document.body.appendChild(table);
+//add event listener to the row
+dataRow.addEventListener('click', function(){
+    console.log("Row clicked");
+    var index = dataRow.id;
+    console.log("Index:", index);
+    popupwindow();
+   
+});
+
+
+
 }
 
 

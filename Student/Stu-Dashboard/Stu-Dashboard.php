@@ -31,8 +31,8 @@ function accessDenied()
 function team(){ // check for the login credentials in database
 
 
-    $tid=$_COOKIE['T_ID'];
-    // $tid="";
+    // $tid=$_COOKIE['T_ID'];
+    $tid="";
     
         header('Content-Type: application/json');
         $json_data = json_encode($tid);

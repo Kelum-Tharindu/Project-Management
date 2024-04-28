@@ -15,7 +15,9 @@ body {
     align-items: center;
     flex-wrap: wrap;
     min-height: 100vh;
-    background: linear-gradient(135deg, #065160, #3E1F47);
+    background: rgb(4,39,62);
+    background: linear-gradient(180deg, rgba(4,39,62,1) 2%, rgba(16,68,95,1) 10%, rgba(31,89,101,1) 17%, rgba(40,96,105,1) 20%, rgba(9,74,85,1) 25%, rgba(3,70,85,1) 33%, rgba(5,51,61,1) 41%, rgba(4,53,64,1) 49%, rgba(3,47,65,1) 56%, rgba(11,55,66,1) 75%, rgba(3,56,65,1) 83%, rgba(7,65,79,1) 90%, rgba(5,79,81,1) 95%);
+    
 }
 
 .BoxMain {
@@ -227,9 +229,11 @@ body {
     padding-bottom: 3rem;
     padding-top: 3rem;
    margin-top: 10rem;
-   display: flex;
+   display: none;
    flex-direction: column;
    width: 90%;
+   min-width: 90%;
+    
    
 
 }
@@ -240,7 +244,7 @@ body {
     border-spacing: 0;
     border: 1px solid #ddd;
     /* background-color: #f1f1f1; */
-    padding: 20px;
+    /* padding: 20px; */
     /* background-color: antiquewhite; */
 
 }
@@ -622,4 +626,10 @@ body{
 }
 .viewteammember h1{
     margin-top: 2px;
+}
+#requsetadd{
+    display: none;
+}
+#requsetview{
+    display: none;
 }
