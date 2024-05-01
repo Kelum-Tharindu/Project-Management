@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+    loadtcombo();
 
     const signInBtnLink = document.querySelector('.signInBtn-link');
     const signUpBtnLink = document.querySelector('.signUpBtn-link');
@@ -133,24 +133,24 @@ if (email === "" || password === "" || username === "" || batch === "" || course
    
     return;
 }
-else if(!email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/) )
-     {
-    console.log("invalid emailpattern");
-    alert("Enter valied Email.");
-    return;
-    }
-    else if(!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}$/))
-    {
-        console.log("invalid password pattern");
-        alert("Password must be 8 to 12 characters long and must contain at least one lowercase letter, one uppercase letter, and one digit.");
-        return;
-    }
-    //check if the checkbox is checked
-    else if (!checkbox) {
-        console.log("checkbox not checked");
-        alert("Please agree to the terms and conditions.");
-        return;
-    }
+// else if(!email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/) )
+//      {
+//     console.log("invalid emailpattern");
+//     alert("Enter valied Email.");
+//     return;
+//     }
+//     else if(!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}$/))
+//     {
+//         console.log("invalid password pattern");
+//         alert("Password must be 8 to 12 characters long and must contain at least one lowercase letter, one uppercase letter, and one digit.");
+//         return;
+//     }
+//     //check if the checkbox is checked
+//     else if (!checkbox) {
+//         console.log("checkbox not checked");
+//         alert("Please agree to the terms and conditions.");
+//         return;
+//     }
     else {
         console.log("all fields filled & Have Valied Email");
         console.log(email, password, username, batch, course, indexnumber)
@@ -175,7 +175,11 @@ else if(!email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/) )
             success: function(response) {
                 console.log(response);
                 if (response.status === "success") {
+                    
                   console.log("Login successful");
+                    alert("Sing up successfull.");
+                    //reload the page
+                    window.location.href = "../StudentLogin/LoginStudent.html";
                     // window.location.href = "../home.html"; // If login is successful, redirect to home.html
                 } else {
                     console.log("Login failed");
@@ -185,7 +189,7 @@ else if(!email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/) )
             error: function(error) {
                 console.error(error);
                 console.log("Login failed error");
-                alert("Error.");
+                alert("Wrong Course selected");
             }
         });
 
@@ -197,7 +201,70 @@ else if(!email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/) )
 
     
     
-    
+    //================================================loard Combox===================================================
+
+function loadtcombo(){ 
+    console.log("loadtcombo called");
+    $.ajax({
+        url: 'Slogin.php',
+        method: 'POST',
+        data: {
+            functionName: 'loadcombobox',
+            
+        },
+        
+        dataType: 'json',
+        
+        // When http request is success
+        success: function(response){
+            console.log("data readed from db successfullly")
+            console.log(response);
+         
+           
+            response.course.forEach(item => {
+                
+                var course = item.Course;              
+                console.log(course);
+                
+                createRow1(course);
+            });
+            response.batch.forEach(item => {
+                
+                var batch = item.Batch;              
+                console.log(batch);
+                
+                createRow(batch);
+            });
+            console.log("Item Data fetch success");
+        },
+
+        error: function(error){
+    console.log("error");
+            console.error(error);
+        }
+    });
+}
+
+function createRow1(coursedata){
+    var course = document.getElementById('course');
+
+
+    var option = document.createElement('option');
+    option.text = coursedata;
+    option.value = coursedata;
+
+    course.add(option);
+}
+function createRow(batchdata){
+    var course = document.getElementById('batch');
+
+
+    var option = document.createElement('option');
+    option.text = batchdata;
+    option.value = batchdata;
+
+    course.add(option);
+}
     
 
 

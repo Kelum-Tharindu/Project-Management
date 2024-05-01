@@ -326,7 +326,7 @@ function team() {
 		success: function(response) {
 			console.log(response);
 			
-				if(response == ''){
+				if(response == '0'){
 					console.log("No team found");
 				teamupdate();
 					

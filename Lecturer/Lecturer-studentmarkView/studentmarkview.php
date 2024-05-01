@@ -11,6 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                case 'addRequest':
                 addRequest();
                 break;
+                case 'singlestudentmark':
+                    singlestudentmark();
+                    break;
        
             default:
                 accessDenied();
@@ -130,7 +133,20 @@ function selectcid($course, $batch, $databaseconnection) {
 
     
 
+function singlestudentmark(){
+    $index=$_POST['index'];
+    $name=$_POST['name'];
 
+    include '../../DataBase.php';
+    $databaseconnection = getDbConnection();
+
+    if ($databaseconnection == null) {
+        return array("status" => "failed", "message" => "Database connection failed");
+    } 
+    else{
+       
+        }
+}
 
 
 

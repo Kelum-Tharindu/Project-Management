@@ -376,14 +376,21 @@ main .Modules{
     gap: 1.6rem;
 }
 
-main .Modules > div{
+/* main .Modules > div{
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadow);
+} */
+
+.moddiv{
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
     box-shadow: var(--box-shadow);
 }
-
 .right{
     margin-right: 1.4rem;
     margin-top: 1rem;
@@ -666,5 +673,36 @@ Media Queries */
     }
 
 }
+.Modules table{
+    width:95%;
+    border-collapse: collapse;
+    /* background-color: #00BCD4; */
+}
+.m1{
+    margin-bottom: 3rem;
+    /* padding: 2rem; */
+}
 
-
+/* .cd1{
+    padding-top: 2rem;
+    padding-left: 5rem;
+} */
+#teamview{
+    border-bottom: #181a1e;
+    margin: 2rem;
+}
+.teamupdate{
+    width: 75%;
+    background-color: none;
+    /* margin-bottom: 50rem; */
+    /* background-color: #7774; */
+}
+.moddiv{
+    margin-top: 2rem;
+    /* background-color: #7774; */}
+ table{
+    /* background-color: #7772; */
+    border-radius: 17px;
+    margin: 1rem;
+    /* padding: 10rem; */
+}

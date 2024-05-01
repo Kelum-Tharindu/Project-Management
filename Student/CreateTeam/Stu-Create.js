@@ -4,7 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
+    fetch('../Navigation-bar/Nav-Bar.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('nav123').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error fetching content:', error);
+    });
 
 
     team123();
@@ -94,7 +101,9 @@ function team123() {
                 if(response == ''){
                     console.log("No team found");
                    
-                teamupdate();
+                // teamupdate();
+                teamview();
+                team1();
                     
                 }
                 else{
@@ -335,40 +344,50 @@ function team1(){
         
         success: function(response) {
             console.log(response);
+            console.log("team1 called=====================");
             
             response.data.forEach(item => {
                 var state = item.states;
                 var lid=item.L_ID;
+                console.log(lid);
                 console.log(state);
-                if(state==0){
+                if(lid==''){
                     console.log("No team found");
                     document.getElementById('requsetadd').style.display='block';
                     document.getElementById('requsetview').style.display='none'; 
+                //     document.getElementById('requsetadd').style.display='none';
+                //     document.getElementById('requsetview').style.display='block'; 
                 }                       
                else{
                     console.log(state);
                     console.log(response);
                 var view=document.getElementById('requsetview');
 
-                if(state==1 && lid==1){
+                if(lid==1){
                    console.log("lec1");
                     var infor=document.getElementById('lecinfro1');
                     document.getElementsByClassName('request')[0].style.display='none';
                 }
-                else if(state==1 && lid==2){
+                else if( lid==2){
                     console.log("lec2");
+                    
                     var infor=document.getElementById('lecinfro2');
+                    // document.getElementsByClassName('request').style.display='none';
                     document.getElementsByClassName('request')[1].style.display='none';
+                  infor.style.padding='10rem';
+
+
                 }
-                else if(state==1 && lid==3){
+                else if(lid==3){
                     console.log("lec3");
                     var infor=document.getElementById('lecinfro3');
                     document.getElementsByClassName('request')[2].style.display='none';
                 }
-                else if(state==1 && lid==4){
+                else if( lid==4){
                     console.log("lec4");
                     var infor=document.getElementById('lecinfro4');
-                    document.getElementsByClassName('request')[3].style.display='none';
+                    document.getElementsByClassName('request').style.display='none';
+                    document.getElementsByClassName('request')[3].style.display='block';
                 }
                 else{
                     console.log("No team found");

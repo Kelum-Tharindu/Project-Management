@@ -200,7 +200,8 @@ dataRow.addEventListener('click', function(){
     console.log("Row clicked");
     var index = dataRow.id;
     console.log("Index:", index);
-    popupwindow();
+    // popupwindow1(index,name,Total);
+    // popupwindow();
    
 });
 
@@ -272,4 +273,132 @@ function createRow(batchdata){
     option.value = batchdata;
 
     course.add(option);
+}
+//=======================pop up========================================
+function popupwindow1(name,index,mark){
+
+
+
+    $.ajax({
+        url: 'studentmarkview.php',
+        method: 'POST',
+        data: {
+            functionname: 'singlestudentmark',
+            index: index,
+            name: name
+            
+        },
+        
+        dataType: 'json',
+        
+        // When http request is success
+        success: function(response){
+            console.log("data readed from db successfullly")
+            console.log(response);
+         
+           
+            response.course.forEach(item => {
+                
+                var course = item.Course;              
+                console.log(course);
+                
+                createRow1(course);
+            });
+            response.batch.forEach(item => {
+                
+                var batch = item.Batch;              
+                console.log(batch);
+                
+                createRow(batch);
+            });
+            console.log("Item Data fetch success");
+        },
+
+        error: function(error){
+    console.log("error");
+            console.error(error);
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+// Create div element with class "title" and h1 element inside
+const titleDiv = document.createElement("div");
+titleDiv.className = "title";
+const titleHeading = document.createElement("h1");
+titleHeading.textContent = "Student Mark Sheet";
+titleDiv.appendChild(titleHeading);
+
+// Create div element with class "filter" and labels inside
+const filterDiv = document.createElement("div");
+filterDiv.className = "filter";
+
+const labels = [
+  { labelText: "Student Name:", replyText: name, id: "stname" },
+  { labelText: "Student ID:", replyText: index, id: "stindex" },
+  { labelText: "Total:", replyText: mark, id: "sttot" },
+  
+];
+
+labels.forEach(labelInfo => {
+  const label = document.createElement("label");
+  label.className = "qq";
+  label.textContent = labelInfo.labelText;
+  
+  const replyLabel = document.createElement("label");
+  replyLabel.className = "rply";
+  replyLabel.id = labelInfo.id;
+  replyLabel.textContent = labelInfo.replyText;
+
+  filterDiv.appendChild(label);
+  filterDiv.appendChild(replyLabel);
+});
+popupwindow2();
+}
+function popupwindow2(){
+    
+
+// Create table element with headers
+const table = document.createElement("table");
+
+const headers = ["Task Number", "Task Name", "Team Mark", "Individual Mark", "Total Mark", "Grade"];
+const headerRow = document.createElement("tr");
+
+headers.forEach(headerText => {
+  const th = document.createElement("th");
+  th.textContent = headerText;
+  headerRow.appendChild(th);
+});
+
+table.appendChild(headerRow);
+
+// Append everything to the body or another desired element
+document.body.appendChild(titleDiv);
+document.body.appendChild(filterDiv);
+document.body.appendChild(table);
+
+
 }

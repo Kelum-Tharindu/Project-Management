@@ -1,5 +1,91 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
+    loadtcombo();
+
+
+//================================================loard Combox===================================================
+
+function loadtcombo(){ 
+    console.log("loadtcombo called");
+    $.ajax({
+        url: '../StudentLogin/Slogin.php',
+        method: 'POST',
+        data: {
+            functionName: 'loadcombobox',
+            
+        },
+        
+        dataType: 'json',
+        
+        // When http request is success
+        success: function(response){
+            console.log("data readed from db successfullly")
+            console.log(response);
+         
+           
+            response.course.forEach(item => {
+                
+                var course = item.Course;              
+                console.log(course);
+                
+                createRow1(course);
+            });
+            response.batch.forEach(item => {
+                
+                var batch = item.Batch;              
+                console.log(batch);
+                
+                createRow(batch);
+            });
+            console.log("Item Data fetch success");
+
+            fetchUserData();
+        },
+
+        error: function(error){
+    console.log("error");
+            console.error(error);
+        }
+    });
+}
+
+function createRow1(coursedata){
+    var course = document.getElementById('course');
+
+
+    var option = document.createElement('option');
+    option.text = coursedata;
+    option.value = coursedata;
+
+    course.add(option);
+}
+function createRow(batchdata){
+    var course = document.getElementById('batch');
+
+
+    var option = document.createElement('option');
+    option.text = batchdata;
+    option.value = batchdata;
+
+    course.add(option);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log("loadtcombo called================");
     // fetch the navbar from the incluedes folder
     var btnSave = document.getElementById('btn-save');
     var btnCancel = document.getElementById('btn-cancel');
@@ -8,62 +94,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // These are '<input>' not the values
     var nameInput = document.getElementById('name');
-    var nicInput = document.getElementById('nic');
+ 
     var emailInput = document.getElementById('email');
     var psswdInput = document.getElementById('psswd');
-    var phoneInput = document.getElementById('phone');
-    var sexOption = document.getElementById('sex');
-    var dobInput = document.getElementById('dob');
-    var addressInput = document.getElementById('address');
-    var cmbCatList1 = document.getElementById('cat-list1-cmb');
-    var cmbCatList2 = document.getElementById('cat-list2-cmb');
-    var cmbCatList3 = document.getElementById('cat-list3-cmb');
+    var batchInput = document.getElementById('batch');
+    var indexInput = document.getElementById('index');
+    var courseInput = document.getElementById('course');
 
-    // These are new variables to store the new values
-    var nameNew;
-    var nicNew;
-    var emailNew;
-    var psswdHashNew; // hash of the password
-    var phoneNew;
-    var sexNew;
-    var dobNew;
-    var addressNew;
-    
-    // error state
-    var nameNewNoError = true;
-    var nicNewNoError = true;
-    var emailNewNoError = true;
-    var psswdHashNewNoError = true;
-    var phoneNewNoError = true;
-    var dobNewNoError = true;
-    var addressNewNoError = true;
-
-    var catIDListChanged = false;
+ 
 
 
-    var inputFeilds = Array.from(document.getElementsByClassName('input-feild')); // array of all input fields
-
-    var today = new Date();
 
     var file = null; // file to be uploaded (image)
 
     // fetch the nav bar
-    fetch('../Navigation-bar/Nav-Bar.html')
-.then(response => response.text())
-.then(data => {
-    document.getElementById('nav123').innerHTML = data;
-})
-.catch(error => {
-    console.error('Error fetching content:', error);
-});
+        fetch('../Navigation-bar/Nav-Bar.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('nav123').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error fetching content:', error);
+    });
     
 
     // ============================== Fetch and Fill User Data ================================
     // fetch and fill user data 
-    fetchUserData();
+    // fetchUserData();
 
     // fetch the user data from the server
     function fetchUserData(){
+        console.log('==========Fetching User Data=========');
         $.ajax({
             url: 'php/profile-settings.php',
             method: 'POST',
@@ -72,8 +133,18 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             dataType: 'json',
             success: function(response){
-                //response has only one object with key 'userData'
-                fillUserData(response.userData)
+                console.log(response);
+                console.log('==========User Data Fetched=========');
+                var name= response.data.S_Name;
+                var email= response.data.S_Email;
+                var pw= response.data.S_PW;
+                var index= response.data.S_Index;
+                var batch= response.batch;
+                var course= response.course;
+                console.log(name,email,pw,index,batch,course);
+
+                autofill(name,email,pw,index,batch,course);
+                fetchProfilePic();
             },
             error: function(error){
                 console.error(error);
@@ -81,14 +152,23 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function autofill(name,email,pw,index,batch,course){
+        nameInput.value = name;
+        emailInput.value = email;
+        psswdInput.value = pw;
+       indexInput.value = index;
+       courseInput.value= course;
+    //    console.log(courseInput);
+       batchInput.value = batch;
+       
+    
+
+    }
     function fillUserData(userData){
         nameInput.value = userData.FullName;
-        nicInput.value = userData.NIC;
         emailInput.value = userData.Email;
-        phoneInput.value = userData.Mobile
-        sexOption.value = userData.Sex;
         dobInput.value = userData.BirthDate;
-        addressInput.value = userData.Address;
+       
 
         var favCatIDList = null;
 
@@ -99,62 +179,9 @@ document.addEventListener('DOMContentLoaded', function () {
         requestFillCatCmb(favCatIDList);
     }
 
-    function requestFillCatCmb(favCatIDList){ // get the rest of the categories from jobs.php
-        $.ajax({
-            url: 'php/jobs.php',
-            method: 'POST',
-            data: {
-                functionName: 'getCategoryList',
-            },
-            dataType: 'json',
+   
 
-            success: function(response){ // Response is a list of categories
-                // First fill the comboboxes with all available categories
-                response.forEach(function(category){ 
-                    fillCatCmb(category.CatID, category.CatName);
-                });
 
-                // Set the fave categories in each combobox as selected, if it exists
-                if(favCatIDList != null){
-                    if(favCatIDList[0]){
-                        cmbCatList1.value = favCatIDList[0];
-                    }
-                    if(favCatIDList[1]){
-                        cmbCatList2.value = favCatIDList[1];
-                    }
-                    if(favCatIDList[2]){
-                        cmbCatList3.value = favCatIDList[2];
-                    }
-                }
-            },
-
-            error: function(error){
-                console.error(error);
-            }
-        });
-    }
-
-    function fillCatCmb(catId, catName){ // update the category combobox with all available categories
-        var option1 = document.createElement('option');
-        var option2 = document.createElement('option');
-        var option3 = document.createElement('option');
-
-        option1.id = catId;
-        option1.value = catId;
-        option1.text = catName;
-
-        option2.id = catId;
-        option2.value = catId;
-        option2.text = catName;
-
-        option3.id = catId;
-        option3.value = catId;
-        option3.text = catName;
-
-        cmbCatList1.appendChild(option1);
-        cmbCatList2.appendChild(option2);
-        cmbCatList3.appendChild(option3);
-    }
 
 
     // ============================== Update Data ================================
@@ -190,6 +217,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ------------------- validate the input fields -------------------
+
+
     nameInput.addEventListener('input', function(){
         if(nameInput.value.length < 5){
             nameInput.style.borderColor = 'red';
@@ -203,18 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    nicInput.addEventListener('input', function(){
-        if(nicInput.value.length < 8 || nicInput.value.length > 12){
-            nicInput.style.borderColor = 'red';
-            nicNew = null;
-            nicNewNoError = false;
-        }
-        else{
-            nicInput.style.borderColor = 'green';
-            nicNew = nicInput.value;
-            nicNewNoError = true;
-        }
-    });
+   
 
     emailInput.addEventListener('input', function(){
         if(emailInput.value.indexOf('@') == -1 || emailInput.value.indexOf('.') == -1 || emailInput.value.length < 12){
@@ -242,63 +260,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    phoneInput.addEventListener('input', function(){
-        if(phoneInput.value.length < 10){
-            phoneInput.style.borderColor = 'red';
-            phoneNew = null;
-            phoneNewNoError = false;
-        }
-        else{
-            phoneInput.style.borderColor = 'green';
-            phoneNew = phoneInput.value;
-            phoneNewNoError = true;
-        }
-    });
+   
 
-    sexOption.addEventListener('input', function(){
-        sexNew = sexOption.value;
-    });
 
-    dobInput.addEventListener('input', function(){
-        const birthDateFull = new Date(document.getElementById('dob').value);
-        var age = today.getFullYear() - birthDateFull.getFullYear(); //calculate age
+   
+// ------------------- save button------------------
+  
 
-        // if age is less than 16 or greater than 100, then show error
-        if(age < 16 || age > 100){
-            dobInput.style.borderColor = 'red';
-            dobNew = null;
-            dobNewNoError = false;
-        }
-        else{
-            dobInput.style.borderColor = 'green';
-            dobNew = dobInput.value;
-            dobNewNoError = true;
-        }
-    });
 
-    addressInput.addEventListener('input', function(){
-        if(addressInput.value.length < 5){
-            addressInput.style.borderColor = 'red';
-            addressNew = null;
-            addressNewNoError = false;
-        }
-        else{
-            addressInput.style.borderColor = 'green';
-            addressNew = addressInput.value;
-            addressNewNoError = true;
-        }
-    });
 
-    const catCmb = Array.from(document.getElementsByClassName('cat-cmb'));
-    catCmb.forEach(cmb => {
-        cmb.addEventListener('change', function(){
-            catIDListChanged = true;
-        });
-    });
-
-    // send profile pic to the server (to php file)
+   
     btnSave.addEventListener('click', function(){
         catIDListNew = []; 
+        updateUserData();
 
         // if a new profile picture is selected
         if(file != null){ 
@@ -318,7 +292,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 success: function(response){
                     console.log(response);
-                    setNavProfilePic(); // function from navBar.js
+                    console.log('==========Profile Picture Updated=========');
+                   
                     // location.reload();
                 },
 
@@ -328,121 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // if any of the input fields are invalid
-        if(!nameNewNoError || !nicNewNoError || !emailNewNoError || !psswdHashNewNoError || !phoneNewNoError || !dobNewNoError || !addressNewNoError){
-            alert('Please fill all fields correctly');
-        }
-        else{
-            // if all the input fields are valid
-
-            const catCmb = Array.from(document.getElementsByClassName('cat-cmb'));
-            
-            // get the selected categories
-            if(catIDListChanged){
-                catCmb.forEach(cmb => {
-                    if(cmb.selectedIndex != 0) {
-                        var alreadySelected = false; // flag to check if the category is already selected in another combobox
-                    
-                        // check if the category is already selected in another cmbbox then add it to the list
-                        for (var i = 0; i <= catIDListNew.length; i++) {
-                            if (catIDListNew[i] == cmb.value) {
-                                alreadySelected = true;
-                                break;
-                            }
-                        }
-                        // if the category is not selected any other combobox then add it to the list
-                        if (!alreadySelected){
-                            catIDListNew.push(cmb.value);
-                        }
-                    }
-                    else{
-                        // if the category is not selected then remove it from the list, if it exists in the list
-                        // for (var i = 0; i <= catIDListNew.length; i++) {
-                        //     if (catIDListNew[i] == cmb.value) {
-                        //         console.log(catIDListNew[i]);
-                        //         break;
-                        //     }
-                        // }
-                        console.log('none selected');
-                    }
-                });
-            }
-            
-
-            // if no errors occured, create data object to send to the server except the profile picture and categories
-            var userData = {}; // create an object to store the user data
-
-            if(nameNew != null){
-                userData.name = nameNew;
-            }
-            if(nicNew != null){
-                userData.nic = nicNew;
-            }
-            if(emailNew != null){
-                userData.email = emailNew;
-            }
-            if(psswdHashNew != null){
-                userData.psswdHash = psswdHashNew;
-            }
-            if(phoneNew != null){
-                userData.phone = phoneNew;
-            }
-            if(sexNew != null){
-                userData.sex = sexNew;
-            }
-            if(dobNew != null){
-                userData.dob = dobNew;
-            }
-            if(addressNew != null){
-                userData.address = addressNew;
-            }
-            
-            if(catIDListNew.length > 0){
-                userData.catIDList = catIDListNew;
-            }
-           
-            // send the data to the server, if userData is not empty
-
-            // user data update part
-            // if the user data has any data then send it to the server
-            if(Object.keys(userData).length > 0){
-                $.ajax({
-                    url: 'php/profile-settings.php',
-                    method: 'POST',
-                    data: {
-                        functionName: 'updateUserData',
-                        data: userData,
-                    },
-                    dataType: 'json',
-    
-                    success: function(response){
-                        console.log(response);
-                        if(response.status == 'success'){
-                            catIDListChanged = false;
-                            alert('Profile Updated');
-                            // Swal.fire({
-                            //     icon: 'success',
-                            //     title: 'Profile Updated',
-                            //     text: 'Your profile has been updated successfully.',
-                            // });
-                        }
-                        {
-                            // Swal.fire({
-                            //     icon: 'error',
-                            //     title: 'Profile Update Failed',
-                            //     text: 'Your profile could not be updated. Please try again.',
-                            // });
-                        }
-                        fetchUserData();
-                        
-                    },
-    
-                    error: function(error){
-                        console.error(error);
-                    }
-                });
-            }
-        }
+       
     });
     
     // cancel the profile picture upload
@@ -452,5 +313,87 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+
+
+    // ============================== Update Data ================================
+
+
+
+
+
+
+    function updateUserData(){
+        console.log('==========Updating User Data called=========');
+        var nameNew =document.getElementById('name').value;
+        console.log(nameNew);
+        var emailNew = document.getElementById('email').value;
+        var psswdHashNew = document.getElementById('psswd').value;
+        var batchNew = document.getElementById('batch').value;
+        var courseNew = document.getElementById('course').value;
+        var indexNew = document.getElementById('index').value;
+
+        console.log(nameNew,emailNew,psswdHashNew,batchNew,courseNew,indexNew);
+
+        console.log('==========Updating User Data=========');
+        $.ajax({
+            url: 'php/profile-settings.php',
+            method: 'POST',
+            data: {
+                functionName: 'updateUserData',
+                name: nameNew,
+                email: emailNew,
+                psswd: psswdHashNew,
+                batch: batchNew,
+                course: courseNew,
+                index: indexNew,
+            },
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                console.log('==========User Data Updated=========');
+                // location.reload();
+            },
+            error: function(error){
+                console.error(error);
+            }
+        });
+    }
+
+
+
+
+
+ 
+
+
+
+
+
 });
 
+function fetchProfilePic() {
+   
+    $.ajax({
+        url: 'php/profile-settings.php', 
+        method: 'POST',
+        data: {
+            functionName: 'fetchProfilePic' 
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log("Profile picture fetch status: " + response.status);
+            
+            if (response.status === "success") {
+                // Display the profile picture
+                var profilePicData = response.profilePic;
+                var imgElement = document.getElementById("profilePreview");
+                imgElement.src = "data:image/jpeg;base64," + profilePicData;
+            } else {
+                console.log("Error: " + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching profile picture:", error);
+        }
+    });
+}

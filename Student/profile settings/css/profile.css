@@ -1,11 +1,19 @@
 * {
     font-family: "Poppins", sans-serif;
+
+}
+body{
+    background: rgb(4,39,62);
+    background: linear-gradient(180deg, rgba(4,39,62,1) 2%, rgba(16,68,95,1) 10%, rgba(31,89,101,1) 17%, rgba(40,96,105,1) 20%, rgba(9,74,85,1) 25%, rgba(3,70,85,1) 33%, rgba(5,51,61,1) 41%, rgba(4,53,64,1) 49%, rgba(3,47,65,1) 56%, rgba(11,55,66,1) 75%, rgba(3,56,65,1) 83%, rgba(7,65,79,1) 90%, rgba(5,79,81,1) 95%);
+    
 }
 
 .profile-container{
     font-size: 0.9rem;
     margin-top: 4.5rem;
     padding: 1rem 1rem;
+    /* background-color: #7778; */
+    
 }
 
 .profile-container h1{
@@ -23,6 +31,8 @@
     gap: 5rem;
     margin-top: 1rem;
     padding: 0rem 3rem;
+    /* background-color: #7778; */
+
 }
 
 .profile-image{
@@ -36,6 +46,8 @@
     border-radius: 1rem;
     padding: 2.5rem 2rem;
     box-shadow: 1px 1px 18px rgba(23, 30, 64, 0.3);
+    background-color: #7778;
+
 }
 
 .profile-image img{
@@ -43,7 +55,7 @@
     height: 15rem;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(23, 30, 64, 0.1);
+    border: 2px solid white;
     text-align: center;
     color: red;
 }
@@ -65,6 +77,7 @@
     border: 1px solid rgb(23, 30, 64);
     border-radius: 1rem;
     cursor: pointer;
+    background-color: #7778;
 }
 
 
@@ -76,6 +89,8 @@
     margin-top: 1rem;
     gap: 1rem;
     padding: 0.2rem 2rem;
+    background-color: #7778;
+    border-radius: 18px;
     /* justify-items: center; */
 }
 

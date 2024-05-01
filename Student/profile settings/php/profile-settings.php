@@ -1,8 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['functionName'])) {
-        include '../../DbAccess.php';
-        include 'genarateID.php';
+        include '../../../DataBase.php';
+        
 
         switch ($_POST['functionName']) {  // Check which function is going to access
             case 'updateProfilePic':
@@ -11,9 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'getUserData':
                 getUserData();
                 break;
-            case 'updateUserData':
-                updateUserData($_POST['data']);
-                break;
+                case 'fetchProfilePic':
+                    fetchProfilePic();
+                    break;
+       
+                case 'loadcombobox':
+                    // Call the submit function
+                    loadcombobox();
+                    break;
+                    case 'updateUserData':
+                        // Call the submit function
+                        updateUserData();
+                        break;
             default:
                 accessDenied();
         }
@@ -34,171 +43,205 @@ function updateProfilePic()
 {
     if (isset($_FILES['newProfile'])) {
         $con = getDbConnection();
-        $cusid = $_COOKIE['cusid'];
+        $sid = $_COOKIE['S_ID'];
+     
 
         // Get the file content
         $profilePic = file_get_contents($_FILES['newProfile']['tmp_name']);
 
-        // Update the existing profile picture if available else insert a new one
-        $sql = "INSERT INTO customerreg_profile_pics (Profile, CusID) VALUES (?, ?) ON DUPLICATE KEY UPDATE Profile = VALUES(Profile)";
-        $stmt = $con->prepare($sql);
+       // Check if a record with the given S_ID already exists
+$checkSql = "SELECT COUNT(*) AS count FROM student_profile_pics WHERE S_ID = ?";
+$checkStmt = $con->prepare($checkSql);
+$checkStmt->bind_param("i", $sid);
+$checkStmt->execute();
+$checkResult = $checkStmt->get_result();
+$row = $checkResult->fetch_assoc();
 
-        // Bind the file content to the SQL statement
-        $null = NULL; // Placeholder for BLOB parameter
-        $stmt->bind_param("bs", $null, $cusid); // 'b' indicates binary data
-        $stmt->send_long_data(0, $profilePic); // Bind BLOB data separately
+if ($row['count'] > 0) {
+    // Record with the given S_ID already exists, perform an update
+    $sql = "UPDATE student_profile_pics SET Profile = ? WHERE S_ID = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("bi", $profilePic, $sid);
+} else {
+    // No record with the given S_ID exists, perform an insert
+    $sql = "INSERT INTO student_profile_pics (Profile, S_ID) VALUES (?, ?)";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("bi", $profilePic, $sid);
+}
 
-        // Execute the SQL statement
-        $stmt->execute();
+// Bind the file content to the SQL statement
+$null = NULL; // Placeholder for BLOB parameter
+$stmt->send_long_data(0, $profilePic); // Bind BLOB data separately
 
-        if ($stmt->affected_rows > 0) {
-            echo json_encode(array("status" => "success", "message" => "Profile Picture Updated Successfully"));
-        } else {
-            echo json_encode(array("status" => "failed", "message" => "Failed to Update Profile Picture"));
-        }
+// Execute the SQL statement
+$stmt->execute();
 
-        // Close the statement and connection
-        $stmt->close();
-        $con->close();
+if ($stmt->affected_rows > 0) {
+    echo json_encode(array("status" => "success", "message" => "Profile Picture Updated Successfully"));
+} else {
+    echo json_encode(array("status" => "failed", "message" => "Failed to Update Profile Picture"));
+}
+
+// Close the statement and connection
+$stmt->close();
+$con->close();
+
     } else {
         echo json_encode(array("status" => "failed", "message" => "No Profile Picture Found"));
     }
 }
 
+
 function getUserData() // Get the user data from the database
 {
-    $con = getDbConnection();
-    $cusid = $_COOKIE['cusid']; // Get the user ID from the cookie
+    
+    $databaseconnection = getDbConnection();
+        if($databaseconnection == null){
+            $response=array("status"=>"failed","message"=>"Database connection failed");
+            echo json_encode($response);
+            
+        }
+        else{
+            $sid = $_COOKIE['S_ID'];
+            $sql = "SELECT * FROM student WHERE S_ID = '$sid'";
+            $result = mysqli_query(getDbConnection(), $sql);
+            
+            if(mysqli_num_rows($result) > 0){
+                $row = mysqli_fetch_array($result);
 
-    $sql = "SELECT * FROM customerreg WHERE CusID = ?";
-    $stmt = $con->prepare($sql);
-    $stmt->bind_param("s", $cusid);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                setcookie("S_ID", $row['S_ID'], time() + (86400 * 30), "/");
+                setcookie("Name", $row['S_Name'], time() + (86400 * 30), "/");
+                setcookie("C_ID", $row['C_ID'], time() + (86400 * 30), "/");
+                $cid= $row['C_ID'];
+                $sql1 = "SELECT * FROM course WHERE C_ID = '$cid'";
+                $result1 = mysqli_query(getDbConnection(), $sql1);
+                if(mysqli_num_rows($result1) > 0){
+                    $row1 = mysqli_fetch_array($result1);
+                    $coursename = $row1['Course'];
+                    $batch = $row1['Batch'];
+                
+                }
+                else{
+                    setcookie("C_ID", '', time() + (86400 * 30), "/");
+                    echo json_encode(array("status" => "success"));
+                }
 
-    if ($result->num_rows > 0) { // If user data found,
-        $userData = $result->fetch_assoc(); // Fetch the user data to array
-
-        // Get the interseted categories if available
-        $sql = "SELECT CategoryID FROM customerreg_fave_categories WHERE CusID = ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("s", $cusid);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) { // If interested categories found,
-            $categories = array();
-            while ($row = $result->fetch_assoc()) {
-                $categories[] = $row['CategoryID']; // Add the category IDs to the array
+                echo json_encode(array("status" => "success", "data" => $row,"course" => $coursename,"batch" => $batch));
+            
+               
             }
-            $userData['categories'] = $categories;
+            else{
+                echo json_encode(array("status" => "failed", "message" => "Query Error but Database connected"));
+            }
+         }
         }
 
-        echo json_encode(array("userData" => $userData));
-    } else {
-        echo json_encode(array("status" => "failed", "message" => "User Not Found"));
-    }
 
-    $stmt->close();
-    $con->close();
-}
 
-function updateUserData($userData)
+function updateUserData()
 {
     $con = getDbConnection();
-    $cusid = $_COOKIE['cusid'];
+    $sid = $_COOKIE['S_ID'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $pw = $_POST['psswd'];
+    $course = $_POST['course'];
+    $batch = $_POST['batch'];
+    $index = $_POST['index'];
+    $sql1 = "SELECT C_ID FROM course WHERE Course = '$course' AND Batch = '$batch'";
+    $result1 = mysqli_query(getDbConnection(), $sql1);
+   
 
-    $fields = array(); // array to store query parts
-    $parameters = array(); // array to store parameters parts
-
-    $msgArray = array(); // array to store the messages
-
-    if (isset($userData['name'])) {
-        $fields[] = "FullName = ?";
-        $parameters[] = $userData['name'];
-    }
-    if (isset($userData['nic'])) {
-        $fields[] = "NIC = ?";
-        $parameters[] = $userData['nic'];
-    }
-    if (isset($userData['email'])) {
-        $fields[] = "Email = ?";
-        $parameters[] = $userData['email'];
-    }
-    if (isset($userData['psswdHash'])) {
-        $fields[] = "Password = ?";
-        $parameters[] = $userData['psswdHash'];
-    }
-    if (isset($userData['phone'])) {
-        $fields[] = "Mobile = ?";
-        $parameters[] = $userData['phone'];
-    }
-    if (isset($userData['sex'])) {
-        $fields[] = "Sex = ?";
-        $parameters[] = $userData['sex'];
-    }
-    if (isset($userData['dob'])) {
-        $fields[] = "BirthDate = ?";
-        $parameters[] = $userData['dob'];
-    }
-    if (isset($userData['address'])) {
-        $fields[] = "Address = ?";
-        $parameters[] = $userData['address'];
-    }
-
-    $parameters[] = $cusid;
-
-    // If parameters have set, then Create the query and update the user data
-    if (count($fields) > 0) {
-        $sql = 'UPDATE customerreg SET ' . implode(', ', $fields) . ' WHERE CusID = ?';
-        $stmt = $con->prepare($sql);
-        $dataTypes = str_repeat("s", count($parameters)); // Repeat the 's'
-        $stmt->bind_param($dataTypes, ...$parameters); // Bind the parameters
-        $stmt->execute();
-
-        // If User dataUpdate successful
-        if ($stmt->affected_rows > 0) {
-            // reset the cookies if the email is updated
-            if (isset($userData['email'])) {
-                setcookie("cusid", "", time() - 3600, "/");
-                setcookie("cusid", $cusid, time() + (86400 * 30), "/");
-                setcookie("email", "", time() - 3600, "/");
-                setcookie("email", $userData['email'], time() + (86400 * 30), "/");
-            }
-            $msgArray[] = "User Data Updated Successfully";
-        } else {
-            echo json_encode(array("status" => "failed", "message" => "Failed to Update User Data"));
-            exit();
+    if(mysqli_num_rows($result1) > 0){
+        $row = mysqli_fetch_array($result1);
+        $cid = $row['C_ID'];
+        $sql = "UPDATE student SET S_Name = '$name', S_Email = '$email', S_PW='$pw',S_Index='$index',C_ID='$cid' WHERE S_ID = '$sid'";
+        $result = mysqli_query(getDbConnection(), $sql);
+        if($result){
+            echo json_encode(array("status" => "success", "message" => "Data Updated Successfully"));
         }
-    }
-
-    // If user have selected categories, then update the categories
-    if (isset($userData['catIDList']) && $userData['catIDList'] != null) {
-        $catIDList = $userData['catIDList'];
-
-        // Delete all existing categories if exists
-        $sql = "DELETE FROM customerreg_fave_categories WHERE CusID = ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("s", $cusid);
-        $stmt->execute();
-
-        foreach ($catIDList as $cat) {
-            // Insert all selected categories to the customerreg_favcatList table
-            $sql = "INSERT INTO customerreg_fave_categories (CusID, CategoryID) VALUES (?, ?);";
-
-            $stmt = $con->prepare($sql);
-            $stmt->bind_param("ss", $cusid, $cat);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-            } else {
-                echo json_encode(array("status" => "failed", "message" => "Failed to Update User Categories"));
-                exit();
-            }
+        else{
+            echo json_encode(array("status" => "failed", "message" => "Failed to Update Data"));
         }
-        $msgArray[] = "User Categories Updated Successfully";
+
+    }
+    else{
+        echo json_encode(array("status" => "failed", "message" => "Failed to Update Data haven't found the course and batch"));
     }
 
-    echo json_encode(array("status" => "success", "message" => $msgArray));
+   
+
+   
+
     $con->close();
+
+}
+function loadcombobox()
+{
+    include '../../DataBase.php';
+    $con = getDbConnection();
+    if($con == null){
+        $response=array("status"=>"failed","message"=>"Database connection failed");
+        echo json_encode($response);
+        
+    }
+    else{
+        $sql = "SELECT DISTINCT Course FROM course";
+        $result = $con->query($sql);
+        if ($result->num_rows > 0) {
+            $response=array();
+            while($row = $result->fetch_assoc()) {
+                $response[]=$row;
+            }
+         
+            $sql1 = "SELECT DISTINCT Batch FROM course";
+            $result1 = $con->query($sql1);
+            if ($result1->num_rows > 0) {
+                $response1=array();
+                while($row1 = $result1->fetch_assoc()) {
+                    $response1[]=$row1;
+                }
+            }
+
+            echo json_encode(array("status" => "success", "message" => "Data found", "course" => $response, "batch" => $response1));
+        } 
+        else {
+            $response=array("status"=>"failed","message"=>"No data found");
+            echo json_encode($response);
+        }
+
+        $con->close();
+    }
+}
+
+
+function fetchProfilePic(){
+    $sid = $_COOKIE['S_ID'];
+    $con = getDbConnection();
+
+    // Prepare and execute the SQL query to select profile picture based on S_ID
+    $sql = "SELECT Profile FROM student_profile_pics WHERE S_ID = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("i", $sid);
+    $stmt->execute();
+    $stmt->store_result();
+
+    // Bind the result
+    $stmt->bind_result($profilePic);
+
+    // Fetch the profile picture data
+    if ($stmt->fetch()) {
+        // Profile picture data fetched successfully
+        $response = array("status" => "success", "profilePic" => base64_encode($profilePic));
+    } else {
+        // No profile picture found for the given S_ID
+        $response = array("status" => "failed", "message" => "No Profile Picture Found");
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+    $con->close();
+
+    // Return the response as JSON
+    echo json_encode($response);
 }

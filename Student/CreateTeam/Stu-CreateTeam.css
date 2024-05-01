@@ -164,8 +164,15 @@ body {
 }
 .containerMain{
     width: 100%;
+    /* background-color: #7773; */
 }
-
+.container{
+    width: 100%;
+    padding: 4rem;
+    /* background-color: rgba(220, 13, 13, 0.2); */
+    justify-content: center;
+    align-items: center;
+}
 /* Continue Button Styles */
 .continue {
     display: flex;
@@ -632,4 +639,11 @@ body{
 }
 #requsetview{
     display: none;
+    width: 100%;
+    /* background-color: #7773; */
+    justify-content: center;
+    padding-left: 4rem;
+    padding-bottom: 8rem;
+    /* flex-direction: column; */
+    /* align-items: center; */
 }
