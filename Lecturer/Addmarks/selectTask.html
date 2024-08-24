@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Task</title>
     <link rel="stylesheet" href="selectTask.css">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="slecttask.js"></script>
 </head>
 <header>
@@ -24,22 +26,19 @@
         <div class="filter">
             <label for="course">Course</label>
             <select name="course" id="course">
-                <option value="course1">Course 1</option>
-                <option value="course2">Course 2</option>
-                <option value="course3">Course 3</option>
+                <option value="">Select the Course</option>
+    
 
             </select>
             <label for="batch">Batch</label>
             <select name="batch" id="batch">
-                <option value="batch1">Batch 1</option>
-                <option value="batch2">Batch 2</option>
-                <option value="batch3">Batch 3</option>
+                <option value="">Select the Batch</option>
+        
             </select>
-            
             <button class="btn" id="btnfilter">Filter</button>
         </div>
-        <div class="table">
-            <table>
+        <div class="table" id="tdiv">
+            <!-- <table>
                 <tr id="row1">
                     <th>Course</th>
                     <th>Batch</th> 
@@ -66,7 +65,7 @@
                     <td>Task 3</td>
                 </tr>
                 </table>
-
+ -->
 
         </div>
     </div>

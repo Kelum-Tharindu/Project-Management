@@ -13,24 +13,30 @@ document.addEventListener('DOMContentLoaded', function(){
     loadDescription();
 
 
-var btnapset = document.getElementById('appsetbtn');
-var btnreject = document.getElementById('rejectbtn');
+
 var btnsave = document.getElementById('sendbtn');
 
-btnapset.addEventListener('click', function(){
-    shortreply(1);
-});
-btnreject.addEventListener('click', function(){
-    shortreply(0);
-});
+
+
 btnsave.addEventListener('click', function(){
-    var rply = document.getElementById('textareaRequest').value;
-    if(rply == ""){
-        alert("Please enter a reply");
+    var comm = document.getElementById('textareaRequest').value;
+    var target = document.getElementById('textareaRequest1').value;
+
+    if(comm == "" && target == ""){
+        alert("Please fill the fields");    
         return;
     }
     else{
-    shortreply(2);
+        if(comm == ""){
+            shortreply(1);
+        }
+        else if(target == ""){
+            shortreply(2);
+        }
+        else{
+            shortreply(0);
+        }
+    
     }
 });
 
@@ -43,7 +49,7 @@ btnsave.addEventListener('click', function(){
 
 function loadDescription(){
     $.ajax({
-        url: 'lecrply.php',
+        url: 'meetupcom.php',
         method: 'POST',
         data: {
             functionName: 'loadDescription'
@@ -83,22 +89,24 @@ function loadDescription(){
 function shortreply(btn){
 
 console.log('A/R button clicked');
-var rply = document.getElementById('textareaRequest').value;
+var comm = document.getElementById('textareaRequest').value;
+var tar = document.getElementById('textareaRequest1').value;
 
 $.ajax({
-    url: 'lecrply.php',
+    url: 'meetupcom.php',
     method: 'POST',
     data: {
         functionName: 'A/Rbtn',
         btn: btn,
-        rply: rply
+        Comment: comm,
+        target: tar
     },
     dataType: 'json',
     success: function(response){
         console.log("success");
         console.log(response.message);
         alert("Reply sent successfully");
-        window.location.href = "../LecturerDashboard/Lec-Dashboard.html";
+        window.location.href = "../lecmeetup/meetup.html";
         
     },
     error: function(error){

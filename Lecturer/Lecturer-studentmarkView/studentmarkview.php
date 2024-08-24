@@ -89,6 +89,7 @@ FROM
 WHERE 
 C_ID= '$cid'";
 }
+
 $result = mysqli_query($databaseconnection, $sql);
 
 $team_data = array();

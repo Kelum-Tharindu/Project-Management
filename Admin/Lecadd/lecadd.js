@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    loadtcombo();
+    // loadtcombo();
 
 
 //================================================loard Combox===================================================
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadtcombo(){ 
     console.log("loadtcombo called");
     $.ajax({
-        url: '../StudentLogin/Slogin.php',
+        url: 'lecadd.php',
         method: 'POST',
         data: {
             functionName: 'loadcombobox',
@@ -120,13 +120,13 @@ function createRow(batchdata){
 
     // ============================== Fetch and Fill User Data ================================
     // fetch and fill user data 
-    fetchUserData();
+    // fetchUserData();
 
     // fetch the user data from the server
     function fetchUserData(){
         console.log('==========Fetching User Data=========');
         $.ajax({
-            url: 'php/profile-settings.php',
+            url: 'lecadd.php',
             method: 'POST',
             data: {
                 functionName: 'getUserData',
@@ -275,15 +275,30 @@ function createRow(batchdata){
         updateUserData();
 
         // if a new profile picture is selected
+       
+
+       
+    });
+    
+    // cancel the profile picture upload
+    btnCancel.addEventListener('click', function(){
+        preview.src = "";
+        inputNewProfile.value = "";
+    });
+
+
+
+    function updateUserpic(lid){
         if(file != null){ 
             var formData = new FormData(); // create a new form data object
             formData.append('newProfile', file);
             formData.append('functionName', 'updateProfilePic');
+            formData.append('L_ID', lid);
             
             // request to the server to update the profile picture in the database
             // profile img update part
             $.ajax({
-                url: 'php/profile-settings.php',
+                url: 'lecadd.php',
                 method: 'POST',
                 data: formData,
                 dataType: 'json',
@@ -302,18 +317,7 @@ function createRow(batchdata){
                 }
             });
         }
-
-       
-    });
-    
-    // cancel the profile picture upload
-    btnCancel.addEventListener('click', function(){
-        preview.src = "";
-        inputNewProfile.value = "";
-    });
-
-
-
+    }
 
     // ============================== Update Data ================================
 
@@ -328,29 +332,31 @@ function createRow(batchdata){
         console.log(nameNew);
         var emailNew = document.getElementById('email').value;
         var psswdHashNew = document.getElementById('psswd').value;
-        var batchNew = document.getElementById('batch').value;
-        var courseNew = document.getElementById('course').value;
-        var indexNew = document.getElementById('index').value;
-
-        console.log(nameNew,emailNew,psswdHashNew,batchNew,courseNew,indexNew);
+        var des= document.getElementById('address').value;
+        console.log(nameNew,emailNew,psswdHashNew);
+        if(nameNew=="" || emailNew=="" || psswdHashNew==""){
+            alert('Please fill all the fields');
+            return;
+        }
 
         console.log('==========Updating User Data=========');
         $.ajax({
-            url: 'php/profile-settings.php',
+            url: 'lecadd.php',
             method: 'POST',
             data: {
                 functionName: 'updateUserData',
                 name: nameNew,
                 email: emailNew,
                 psswd: psswdHashNew,
-                batch: batchNew,
-                course: courseNew,
-                index: indexNew,
+                des: des
             },
             dataType: 'json',
             success: function(response){
                 console.log(response);
                 console.log('==========User Data Updated=========');
+                var lid=response.lid;
+                updateUserpic(lid);
+                
                 // location.reload();
             },
             error: function(error){
@@ -371,13 +377,14 @@ function createRow(batchdata){
 
 });
 
-function fetchProfilePic() {
+function fetchProfilePic(lid) {
    
     $.ajax({
-        url: 'php/profile-settings.php', 
+        url: 'lecadd.php', 
         method: 'POST',
         data: {
-            functionName: 'fetchProfilePic' 
+            functionName: 'fetchProfilePic',
+            lid: lid 
         },
         dataType: 'json',
         success: function(response) {

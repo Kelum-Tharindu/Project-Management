@@ -181,7 +181,7 @@ else{
                 success: function(response){
                     console.log(response.message);
                     alert('File uploaded successfully');
-                    // location.reload();
+                    location.reload();
                 },
     
                 error: function(error){
